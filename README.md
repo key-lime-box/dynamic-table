@@ -134,3 +134,25 @@ $("#sample-grid").on("rowSelect", function(aEvent) {
     $("#selected-data").html("You selected <strong>" + aEvent.row[1] + "</strong>");     
 });  
 ```
+
+## Editing content
+
+So far we have only dealt with content loaded from the database that the user
+cannot interact with. 
+
+This is done by *editors*. These are not natively part of the plugin and come as
+separate plug-in: `dynamic-table-editor.jquery.js`
+
+So first you have to import this file.
+
+To instanciate an editor call the following:
+
+```javascript
+var myEditor = $("<div/>").dynamicTableEditor({
+    type : "text",
+    editHandler: function(aData) {
+        $("#selected-data").html("Saving note: <strong>" + aEvent.row[1] + "</strong>");  
+    }
+});
+```
+
