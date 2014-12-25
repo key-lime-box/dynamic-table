@@ -1,18 +1,22 @@
 @CHARSET "UTF-8";
 
 .ui-dynamic-table {
+   cursor: default;
+   background-color: #ffffff;
+}   
+
+.ui-dynamic-table * {
    -webkit-touch-callout: none;
    -webkit-user-select: none;
    -khtml-user-select: none;
    -moz-user-select: none;
    -ms-user-select: none;
    user-select: none;  
-   cursor: default;
-}   
-
+   box-sizing : border-box;
+}
+   
 .ui-dynamic-table-header {
    background-color: #dddddd; 
-   /*color: #ffffff;*/ 
    font-size: 80%;
    font-weight: bold;
 }
@@ -62,7 +66,7 @@
 .ui-dynamic-table-header-cell-filter {
    width: 17px;
    height: 17px;
-   background-image: url("../../img/icon/filter.png");
+   background-image: url("../img/filter.png");
    background-repeat: no-repeat;
    cursor: pointer;
    display: inline-block;
@@ -73,7 +77,7 @@
    width: 13px;
    height: 17px;
    margin-top: 8px;
-   background-image: url("../../img/icon/sortNone.png");
+   background-image: url("../img/sortNone.png");
    background-repeat: no-repeat;
    cursor: pointer;
    display: inline-block;
@@ -101,11 +105,11 @@
 }
 
 .ui-dynamic-table-header-cell-sort.up {
-   background-image: url("../../img/icon/sortUp.png");
+   background-image: url("../img/sortUp.png");
 }
 
 .ui-dynamic-table-header-cell-sort.down {
-   background-image: url("../../img/icon/sortDown.png");
+   background-image: url("../img/sortDown.png");
 }
 
 .ui-dynamic-table-page {

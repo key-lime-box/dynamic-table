@@ -1,10 +1,130 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Sample of the Dynamic Table in Use</title>
-</head>
-<body>
+<!doctype html>
 
-</body>
+<html>
+   
+   <head>
+   
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      
+      <title>Sample of the Dynamic Table in Use</title>
+      
+      <link rel="stylesheet" href="../css/dynamic-table.jquery.css"/>
+      <link rel="stylesheet" href="../css/jquery-ui.css"/>
+   
+      <script type="text/javascript" src="../js/jquery.js"></script>
+      <script type="text/javascript" src="../js/jquery-ui.js"></script>
+      <script type="text/javascript" src="../js/moment.js"></script>
+      <script type="text/javascript" src="../js/dynamic-table.jquery.js"></script>
+   
+      <script>
+      
+      $(function() {
+         
+         // Initialize table
+         $("#sample-grid").dynamicTable({
+            fillParent : false,
+            showCounter: true
+         });
+         
+         // Define columns
+         var myColumns = [{  // Hidden Identifier column
+                             name       : "Identifier",
+                             type       : "number",
+                             visible    : false
+                          },{// Searchable text column
+                             name       : "Name",
+                             type       : "string",
+                             visible    : true,
+                             filterType : "search",
+                             width      : 200
+                          },{// Date column with date filter
+                             name       : "Birth Date",
+                             type       : "date",
+                             visible    : true,
+                             format     : "d-MMM-YYYY", 
+                             filterType : "dateRange",
+                          },{// Limited values with default picklist filter 
+                             name       : "Country",
+                             type       : "string",
+                             visible    : true,
+                          },{ 
+                             name       : "State",
+                             type       : "string",
+                             visible    : true,
+                          },{ 
+                             name       : "Language",
+                             type       : "string",
+                             visible    : true,
+                          }];
+         
+         
+         // Get the data. This would usually be done in an AJAS call
+         // ($.getJSON) but for demo purposes we show hardcoded data
+         var myData = [
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
+                       ];
+         
+         // Load the data into the grid
+         $("#sample-grid").dynamicTable("data", myData, myColumns);
+         
+      });
+      
+      </script>
+      
+      <style type="text/css">
+      
+         body {
+            font-family: sans-serif;
+            font-size: 14px;
+            margin: 0px;
+            padding: 20px;
+            background-color: #666666;
+         }
+         
+         #sample-grid {
+            width: 600px; 
+            height: 500px;
+         }
+      
+      </style>
+      
+   </head>
+   
+   <body>
+   
+      <div id="sample-grid">
+      
+      </div>      
+   
+   </body>
+   
 </html>
