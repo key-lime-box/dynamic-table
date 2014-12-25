@@ -1,13 +1,13 @@
-# Dynamic Grid - JQuery Plug-in
+# Dynamic Grid - jQuery Plug-in
 
 ## Introduction
 
-The dynamic grid was developed as part of an internal project, as we could not 
-quite find a javascript datagrid to suit our needs. What we were looking for was 
-a grid that handles very similar to an Spreadsheet application, but was more 
-able to be integrated into the general application flow.
+The *Dynamic Grid* is a grid that displays data in a similar way to a spreadsheet
+but allows the data to be loaded from you backend and control over what can be
+edited and how it is being saved.
 
-I am now open sourcing it as I hope it is of use to other developers on the web.
+It allows advanced filtering and sorting as well as interaction with your 
+application.
 
 ## Features
 
@@ -19,16 +19,19 @@ I am now open sourcing it as I hope it is of use to other developers on the web.
  * Events on select
  * jQuery UI based
  
-## Prerequirements
+## Prerequisites
 
  * jQuery
  * jQuery UI
- * moment.js
+ * moment.js (if you are planning on displaying dates)
  
 If you are using Bootstrap the JQuery-Bootstrap project is recommended to make 
 the components look more like Bootstrap.
  
 ## Getting Started
+
+[Working sample](http://flb-git1/key-lime-box/dynamic-table/blob/master/sample/index.html)
+that goes with this introduction.
 
 ### 1) Initialize Plug-in
 
@@ -36,7 +39,6 @@ To initialize the component select an empty element, preferably a `<div>`
 and apply the jQuery plug-in:
 
 ```javascript
-    // Initialize table
     $("#sample-grid").dynamicTable({
         fillParent : false,
         showCounter: true
@@ -83,3 +85,34 @@ Available options are:
  * `width` (default: `100`): The width of the column in pixels.
  * `format`: The format used for columns, such as date an number columns. The
    format is based on the moment.js format.
+   
+### 3) Getting the data
+
+You can get the data using an AJAX call (`$.getJSON()`) or generate it in your
+JavaScript.
+
+The format expected is an Array, that contains an array for every row. The
+grid will map every element in the row array to the column at the same index.
+
+To hide items in the array, add invisible columns to the column list.
+
+Sample data:
+
+```javascript
+var myData = [
+                [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
+                [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
+                [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
+                [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
+                [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
+             ];
+```
+
+### 4) Putting it all together
+
+Now that we have our element on the page, our columns and our data we just need
+to load it all into the table:
+
+```
+$("#sample-grid").dynamicTable("data", myData, myColumns);
+```
