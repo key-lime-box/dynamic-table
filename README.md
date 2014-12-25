@@ -85,6 +85,7 @@ Available options are:
  * `width` (default: `100`): The width of the column in pixels.
  * `format`: The format used for columns, such as date an number columns. The
    format is based on the moment.js format.
+ * `editor`: Instance of the editor used to allow this cell to be edited.
    
 ### 3) Getting the data
 
@@ -115,4 +116,21 @@ to load it all into the table:
 
 ```
 $("#sample-grid").dynamicTable("data", myData, myColumns);
+```
+
+## Interacting with the table
+
+To allow your application to interact with the table, it dispatches two events:
+
+ * `rowSelect`: Dispatched when the row gets selected either by keyboard
+   interaction or single click.
+ * `rowDoubleClick`: Dispached when the row gets double-clicked.
+ 
+The `event` parameter gets a `row` property attached, which contains the original
+data of the affected row.
+
+```javascript
+$("#sample-grid").on("rowSelect", function(aEvent) {
+    $("#selected-data").html("You selected <strong>" + aEvent.row[1] + "</strong>");     
+});  
 ```
