@@ -33,6 +33,10 @@ the components look more like Bootstrap.
 [Working sample](http://flb-git1/key-lime-box/dynamic-table/blob/master/sample/index.html)
 that goes with this introduction.
 
+### 0) Import
+
+First import the `dynamic-table.jquery.js` and any dependencies.
+
 ### 1) Initialize Plug-in
 
 To initialize the component select an empty element, preferably a `<div>`
@@ -85,6 +89,7 @@ Available options are:
  * `width` (default: `100`): The width of the column in pixels.
  * `format`: The format used for columns, such as date an number columns. The
    format is based on the moment.js format.
+ * `editor`: Instance of the editor used to allow this cell to be edited.
    
 ### 3) Getting the data
 
@@ -116,3 +121,68 @@ to load it all into the table:
 ```
 $("#sample-grid").dynamicTable("data", myData, myColumns);
 ```
+
+## Interacting with the table
+
+To allow your application to interact with the table, it dispatches two events:
+
+ * `rowSelect`: Dispatched when the row gets selected either by keyboard
+   interaction or single click.
+ * `rowDoubleClick`: Dispached when the row gets double-clicked.
+ 
+The `event` parameter gets a `row` property attached, which contains the original
+data of the affected row.
+
+```javascript
+$("#sample-grid").on("rowSelect", function(aEvent) {
+    $("#selected-data").html("You selected <strong>" + aEvent.row[1] + "</strong>");     
+});  
+```
+
+## Editing content
+
+So far we have only dealt with content loaded from the database that the user
+cannot interact with. 
+
+This is done by *editors*. These are not natively part of the plugin and come as
+separate plug-in: `dynamic-table-editor.jquery.js`
+
+So first you have to import this file.
+
+To instanciate an editor call the following:
+
+```javascript
+var myEditor = $("<div/>").dynamicTableEditor({
+    type : "text",
+    editHandler: function(aData) {
+        // Save here:
+        //$.post(
+        //    ...
+        //);
+    }
+});
+```
+
+The following options are available:
+
+ * `type` (default: `text`): The type of editor. Available types are:
+    * `text`: Simple text field.
+    * `list`: Select list
+    * `date`: Datepicker
+ * `editHandler`: The function that gets called when an edit is complete. This
+   is the point where you save the data back to the server or wherever.
+   This function gets called with two arguments: 
+    * `value`: The value of the editor
+    * `context`: Object that contains data on the current column and row.
+
+For `list` editors only:
+
+ * `values`: A list of values to be rendered into the list.
+ * `firstBlank` (default: `true`): Whether to render the first item of the list as blank item.
+ * `idProperty`: If the values are a complex object, this defines which property
+   is the ID that gets returned when selected.
+ * `nameProperty`: If the values are a complex object, this defines which property
+   is the name that gets shown
+ 
+   
+ 
