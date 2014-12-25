@@ -33,6 +33,10 @@ the components look more like Bootstrap.
 [Working sample](http://flb-git1/key-lime-box/dynamic-table/blob/master/sample/index.html)
 that goes with this introduction.
 
+### 0) Import
+
+First import the `dynamic-table.jquery.js` and any dependencies.
+
 ### 1) Initialize Plug-in
 
 To initialize the component select an empty element, preferably a `<div>`
