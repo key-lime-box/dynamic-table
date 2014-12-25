@@ -151,8 +151,34 @@ To instanciate an editor call the following:
 var myEditor = $("<div/>").dynamicTableEditor({
     type : "text",
     editHandler: function(aData) {
-        $("#selected-data").html("Saving note: <strong>" + aEvent.row[1] + "</strong>");  
+        // Save here:
+        //$.post(
+        //    ...
+        //);
     }
 });
 ```
 
+The following options are available:
+
+ * `type` (default: `text`): The type of editor. Available types are:
+    * `text`: Simple text field.
+    * `list`: Select list
+    * `date`: Datepicker
+ * `editHandler`: The function that gets called when an edit is complete. This
+   is the point where you save the data back to the server or wherever.
+   This function gets called with two arguments: 
+    * `value`: The value of the editor
+    * `context`: Object that contains data on the current column and row.
+
+For `list` editors only:
+
+ * `values`: A list of values to be rendered into the list.
+ * `firstBlank` (default: `true`): Whether to render the first item of the list as blank item.
+ * `idProperty`: If the values are a complex object, this defines which property
+   is the ID that gets returned when selected.
+ * `nameProperty`: If the values are a complex object, this defines which property
+   is the name that gets shown
+ 
+   
+ 
