@@ -15,6 +15,7 @@
       <script type="text/javascript" src="../js/jquery-ui.js"></script>
       <script type="text/javascript" src="../js/moment.js"></script>
       <script type="text/javascript" src="../js/dynamic-table.jquery.js"></script>
+      <script type="text/javascript" src="../js/dynamic-table-editor.jquery.js"></script>
    
       <script>
       
@@ -52,6 +53,15 @@
                              type       : "string",
                              visible    : true,
                           },{ 
+                             name       : "Note",
+                             type       : "string",
+                             visible    : true,
+                             editor     : $("<div/>").dynamicTableEditor({
+                                editHandler: function(aData, aContext) {
+                                   $("#save-data").html("Saving note: <strong>" + aData + "</strong>");       
+                                }
+                             })              
+                          },{ 
                              name       : "Language",
                              type       : "string",
                              visible    : true,
@@ -61,40 +71,56 @@
          // Get the data. This would usually be done in an AJAS call
          // ($.getJSON) but for demo purposes we show hardcoded data
          var myData = [
-                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
-                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
-                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
-                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
-                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
-                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
-                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
-                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
-                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
-                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
-                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
-                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
-                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
-                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
-                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
-                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
-                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
-                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
-                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
-                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
-                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
-                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
-                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
-                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
-                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
-                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
-                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
-                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
-                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
-                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "", "Spanish"],
+                       
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "", "Spanish"],
+                       
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "", "Spanish"],
+                       
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "", "Spanish"],
+                       
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "", "Spanish"],
+                       
+                       [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "", "English"],
+                       [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "", "English"],
+                       [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "", "German"],
+                       [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "", "English"],
+                       [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "", "Spanish"],
+                       
                        ];
          
          // Load the data into the grid
          $("#sample-grid").dynamicTable("data", myData, myColumns);
+         
+         // Add event listeners:
+         $("#sample-grid").on("rowSelect", function(aEvent) {
+            $("#selected-data").html("You selected <strong>" + aEvent.row[1] + "</strong>");     
+         });  
+         
+         // Add event listeners:
+         $("#sample-grid").on("rowDoubleClick", function(aEvent) {
+            $("#selected-data").html("You <em>double-clicked</em> <strong>" + aEvent.row[1] + "</strong>");     
+         });  
          
       });
       
@@ -111,8 +137,18 @@
          }
          
          #sample-grid {
-            width: 600px; 
+            width: 700px; 
             height: 500px;
+         }
+      
+         #selected-data,
+         #save-data {
+            width: 700px; 
+            background-color: #f3f3f3;
+            padding: 5px;
+            margin-top: 10px;
+            border-radius: 5px;
+            box-sizing:border-box;
          }
       
       </style>
@@ -124,6 +160,9 @@
       <div id="sample-grid">
       
       </div>      
+   
+      <div id="selected-data">&nbsp;</div>
+      <div id="save-data">&nbsp;</div>
    
    </body>
    
