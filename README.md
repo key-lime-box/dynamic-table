@@ -30,7 +30,7 @@ the components look more like Bootstrap.
  
 ## Getting Started
 
-[Working sample](http://flb-git1/key-lime-box/dynamic-table/blob/master/sample/index.html)
+[Working sample](sample/index.html)
 that goes with this introduction.
 
 ### 0) Import
