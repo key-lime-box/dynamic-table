@@ -1,8 +1,9 @@
 /**=======================================================================================
- * RESOURCE: table.jquery.js
+ * RESOURCE: dynamic-table.jquery.js
  * 
- * This is a plugin written to extend a datagrid to be able to be sorted, filtered
- * automatic scrolling etc.
+ * The Dynamic Table is a grid that displays data in a similar way to a spreadsheet
+ * but allows the data to be loaded from you backend and control over what can be
+ * edited and how it is being saved.
  *======================================================================================*/
 (function($) {
 
