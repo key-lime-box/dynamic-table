@@ -1,8 +1,8 @@
-# Dynamic Grid - jQuery Plug-in
+# Dynamic Table - jQuery Plug-in
 
 ## Introduction
 
-The *Dynamic Grid* is a grid that displays data in a similar way to a spreadsheet
+The *Dynamic Table* is a table that displays data in a similar way to a spreadsheet
 but allows the data to be loaded from you backend and control over what can be
 edited and how it is being saved.
 
