@@ -712,6 +712,10 @@
             //Parse the date into a JS object
             var myDate           = methods.private_parseDate(aValue);
             
+            /*if (myDate == null) {
+               return "";
+            }*/
+            
             var myFormat         = null;
             
             if (aColumn.format != null && aColumn.format !== "default-decimal") {
@@ -720,12 +724,13 @@
             
             // Is moment.js loaded?
             if (moment) {
+               
                myFormat          = myFormat || "DD-MMM-YYYY";
                
                return moment(myDate).format(myFormat);            
             }
             // Is date.js loaded?
-            else if (Date.parse) {
+            else if (Date.today) {
                myFormat          = myFormat || "dd-MMM-yyyy";
                
                return myDate.toString(myFormat);
@@ -756,14 +761,33 @@
          var myDate           = null;
          
          //If we have a null return a null
-         if (aValue == null || aValue == "null")
+         if (aValue == null || aValue == "null" || aValue == "")
          {
             myDate            = null;
          }
          //If the value is a string, parse it
-         if (typeof aValue === "string")
+         else if (typeof aValue === "string")
          {
-            myDate            = Date.parse(aValue);
+            // Is moment.js present
+            if (moment) {
+               var myMoment      = moment(aValue);
+               
+               if (myMoment.isValid()) {
+                  myDate         = myMoment.toDate();
+               }
+            }
+            // Is moment.js present            
+            else if (Date.today) {
+               myDate            = Date.parse(aValue);
+            }
+            // Use default JS implementation
+            else {
+               var myMillis      = Date.parse(aValue);
+               
+               if (!isNaN(myMillis)) {
+                  myDate         = new Date(myMillis);
+               }
+            }
          }
          //Otherwise wrap it in a date, as JSON passes dates as numbers.
          else
