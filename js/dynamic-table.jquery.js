@@ -712,9 +712,9 @@
             //Parse the date into a JS object
             var myDate           = methods.private_parseDate(aValue);
             
-            /*if (myDate == null) {
+            if (myDate == null) {
                return "";
-            }*/
+            }
             
             var myFormat         = null;
             
@@ -1389,9 +1389,11 @@
                }
                else if (myFilter.type == "dateRange")
                {
-                  myInclude           = myInclude && aItem[myFilter.field] != null 
-                                        && methods.private_parseDate(aItem[myFilter.field]).getTime() >= myFilter.startDate 
-                                        && methods.private_parseDate(aItem[myFilter.field]).getTime() < myFilter.endDate;
+                  var myDate          = methods.private_parseDate(aItem[myFilter.field]);
+                  
+                  myInclude           = myInclude && myDate != null 
+                                        && myDate.getTime() >= myFilter.startDate 
+                                        && myDate.getTime() < myFilter.endDate;
                }
             }
             
