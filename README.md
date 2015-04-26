@@ -183,6 +183,19 @@ For `list` editors only:
    is the ID that gets returned when selected.
  * `nameProperty`: If the values are a complex object, this defines which property
    is the name that gets shown
- 
-   
+
+Sample `list` editor:
+
+```javascript
+var myEditor = $("<div/>").dynamicTableEditor({
+    type : "list",
+    values : [{id : 1, name : "Option #1"}, {id : 2, name : "Option #2"}, {id : 3, name : "Option #3"}],
+    idProperty : "id",
+    nameProperty : "name",
+    editHandler: function(aData) {
+        // ...
+    }
+});
+```
+
  
