@@ -48,6 +48,14 @@
             myContainer.css("overflow", "hidden");
             //myContainer.css("position", "absolute");
 
+            myContainer.prop("tabindex", 0);
+            
+            myContainer.click(function(aEvent) {
+               if (!$(aEvent.target).is(":focusable")) {
+                  $(this).focus();
+               }               
+            });
+            
             //Add a container for rows.
             var myRowContainer         = $("<div/>");
             myRowContainer.addClass    ("ui-dynamic-table-private-row-container");
@@ -1491,7 +1499,19 @@
          }
          
          var myComponent         = aEvent.data.component;
+         
+         // If this grid does not have the focus ignore the events
+         if (!myComponent.is(":focus") && myComponent.find(":focus").length == 0) {
+            return;
+         }
+         
          var myData              = myComponent.data("dynamicTable");
+         
+         // If we have no data there is no point in continuing...
+         if (!myData.data) {
+            return;
+         }
+         
          var myLocation          = myData.location;
          var myLocationChanged   = false;
          
