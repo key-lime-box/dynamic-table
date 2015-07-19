@@ -3,7 +3,7 @@
 ## Introduction
 
 The *Dynamic Table* is a table that displays data in a similar way to a spreadsheet
-but allows the data to be loaded from you backend and control over what can be
+but allows the data to be loaded from your backend and control over what can be
 edited and how it is being saved.
 
 It allows advanced filtering and sorting as well as interaction with your 
