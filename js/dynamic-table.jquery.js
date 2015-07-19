@@ -1573,7 +1573,7 @@
          //Hide all open editors.
          myComponent.find(".ui-dynamic-table-editor").css("display", "none");         
          
-         if (myColumn.editor)
+         if (myColumn && myColumn.editor)
          {
             var myEditor                 = myColumn.editor;
             var myRectangle = {
