@@ -80,7 +80,7 @@ var myColumns = [{
 Available options are:
 
  * `name`: The name of the column.
- * `type` (default: `"string"`) : The datatype of the columns. Options are: `string`, `date`, 'number'
+ * `type` (default: `"string"`) : The datatype of the columns. Options are: `string`, `date`, `number`
    and `boolean`.
  * `visible` (default: `false`): Whether or not the column is visible or not. This allows for
    hiddend data columns, such as ID fields etc.
@@ -90,6 +90,13 @@ Available options are:
  * `format`: The format used for columns, such as date an number columns. The
    format is based on the moment.js format.
  * `editor`: Instance of the editor used to allow this cell to be edited.
+ * `cssClass` : Specify a css class that is applied to this column. If a string is 
+    supplied the class is applied to all columns. Alternatively a function can be supplied
+    that returns the class dynamically. The function is of the following format 
+    `function(aColumn, aValue, aDisplayValue)`. The `aColumn` parameter
+    gets passed the column data, the`aValue` parameter gets passed the original value
+    and the `aDisplayValue` gets passed the string which is to be rendered.
+    
    
 ### 3) Getting the data
 

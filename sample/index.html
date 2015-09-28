@@ -44,6 +44,9 @@
                              visible    : true,
                              format     : "d-MMM-YYYY", 
                              filterType : "dateRange",
+                             cssClass   : function (aColumn, aValue, aDisplayValue) {
+                                return aValue != null  ? "has-birth-date" : null
+                             }
                           },{// Limited values with default picklist filter 
                              name       : "Country",
                              type       : "string",
@@ -149,6 +152,10 @@
             margin-top: 10px;
             border-radius: 5px;
             box-sizing:border-box;
+         }
+         
+         .has-birth-date {
+            background-color: #96e2fe;
          }
       
       </style>

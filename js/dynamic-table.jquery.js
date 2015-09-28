@@ -642,7 +642,7 @@
                         }
                         
                         //Add a cell.
-                        myHtml              += 
+                        myHtml += 
                               "<td>" +
                               "   <div" +
                               "      id=\"ui-dynamic-table-page-cell-" + r + "-" + c + "\" " +
