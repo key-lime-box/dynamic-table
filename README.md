@@ -91,10 +91,10 @@ Available options are:
    format is based on the moment.js format.
  * `editor`: Instance of the editor used to allow this cell to be edited.
  * `cssClass` : Specify a css class that is applied to this column. If a string is 
-    supplied the class is applied to all columns. Alternatively a function can be supplied
-    that returns the class dynamically. The function is of the following format 
-    `function(aColumn, aValue, aDisplayValue)`. The `aColumn` parameter
-    gets passed the column data, the`aValue` parameter gets passed the original value
+    supplied the class is applied to all cells in that column. Alternatively a function 
+    can be supplied that returns the class dynamically. The function is of the following 
+    format `function(aColumn, aValue, aDisplayValue)`. The `aColumn` parameter
+    gets passed the column data, the `aValue` parameter gets passed the original value
     and the `aDisplayValue` gets passed the string which is to be rendered.
     
    
