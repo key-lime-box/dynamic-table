@@ -1022,7 +1022,11 @@
             //Inject the values
             for (var i = 0; i < myValues.length; i++)
             {
-                mySelect.append("<option value='" + myValues[i] + "'>" + methods.private_renderValue(myValues[i], aColumn) + "</option>");
+               var myOption = $("<option>")
+                  .prop("value", myValues[i])
+                  .text(methods.private_renderValue(myValues[i], aColumn));
+               
+               mySelect.append(myOption);
             }
             
             //Set any current selections 
@@ -1103,8 +1107,6 @@
                    data:         aData}, 
                   function(aEvent) {
                   
-                     console.log("Clear Click");
-                         
                      myInput.val("");
                            
                      methods.private_filterBy(
