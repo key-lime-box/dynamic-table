@@ -339,7 +339,7 @@
                         var myOptions           = myData.options;
                         
                         //Sort the dataset
-                        methods.private_sortBy(myColumn, myData);
+                        methods.private_sortBy(myComponent, myColumn, myData);
                         
                         //Render the place holders
                         methods.private_renderPlaceHolders(myComponent, myOptions.rowHeight, myOptions.pageSize, myData.data.length);
@@ -828,7 +828,7 @@
        * 
        * Sorts the data by a specific column.
        *================================================================================*/        
-      private_sortBy : function (aField, aData, aResort)
+      private_sortBy : function (aComponent, aField, aData, aResort)
       {
          //Get the actual row data.
          var myData              = aData.data;
@@ -851,8 +851,16 @@
              return;
          }
          
-         //Do the actuak sort
+         //Do the actual sort
          myData.sort(methods.private_sortFunction(aField, aData));
+         
+         aComponent
+            .find(".ui-dynamic-table-header-cell.ui-dynamic-table-sorted")
+            .removeClass("ui-dynamic-table-sorted");         
+                  
+         aComponent
+            .find("#ui-dynamic-table-header-cell-" + aField)
+            .addClass("ui-dynamic-table-sorted");
       },
       
       /**=================================================================================
@@ -1299,6 +1307,9 @@
             }
          }      
          
+         var myColumnCell = aComponent.find("#ui-dynamic-table-header-cell-" + aColumnIndex);
+         myColumnCell.removeClass("ui-dynamic-table-filtered");
+         
          //If the type is list
          if (aColumn.filterType == "list")
          {
@@ -1316,6 +1327,8 @@
                   values:        myValue,
                   type:          aColumn.filterType
                });
+               
+               myColumnCell.addClass("ui-dynamic-table-filtered");
             }
          }
          //If the type is search
@@ -1331,7 +1344,9 @@
                   field:         aColumnIndex,
                   value:         myValue.toLowerCase(),
                   type:          aColumn.filterType
-               });            
+               });
+               
+               myColumnCell.addClass("ui-dynamic-table-filtered");
             }
          }
          //If we have a date range
@@ -1351,7 +1366,9 @@
                    endDate:       myEnd   ? myEnd.getTime()   : methods.private_parseDate('2100-01-01').getTime(),
                    hasStart:      myStart != null,
                    hasEnd:        myEnd   != null
-                });            
+                });
+                
+                myColumnCell.addClass("ui-dynamic-table-filtered");
              }
          }
          
@@ -1361,7 +1378,7 @@
          //Applies the current sort again, if there is one
          if (aData.currentSort)
          {
-            methods.private_sortBy              (aData.currentSort, aData, true);
+            methods.private_sortBy           (aComponent, aData.currentSort, aData, true);
          }
          
          //Render placeholders

@@ -47,19 +47,25 @@
    border-right: 1px solid #cccccc;
 }
 
+.ui-dynamic-table-header-cell.ui-dynamic-table-filtered,
+.ui-dynamic-table-header-cell.ui-dynamic-table-sorted {
+   background-color: #cccccc;  
+} 
+
 .ui-dynamic-table-header-cell-function {
    position: relative;
    float: right;
    padding: 0px 0px;
    white-space: nowrap;
    display: none;
-   background-color: #dddddd;
    padding-left: 3px;
    z-index: 100;
 }
 
 .ui-dynamic-table-header-cell.selected .ui-dynamic-table-header-cell-function,
-.ui-dynamic-table-header-cell:hover .ui-dynamic-table-header-cell-function {
+.ui-dynamic-table-header-cell:hover .ui-dynamic-table-header-cell-function,
+.ui-dynamic-table-header-cell.ui-dynamic-table-filtered .ui-dynamic-table-header-cell-function,
+.ui-dynamic-table-header-cell.ui-dynamic-table-sorted .ui-dynamic-table-header-cell-function {
    display: block;
 }
 
