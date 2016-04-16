@@ -1,4 +1,11 @@
 /**=======================================================================================
+ * DYNAMIC TABLE
+ * 
+ * https://github.com/key-lime-box/dynamic-table
+ * 
+ * Copyright (c) 2014, 2016 Key Lime Box
+ *======================================================================================*/
+/**=======================================================================================
  * The Dynamic Table is a grid that displays data in a similar way to a spreadsheet
  * but allows the data to be loaded from you backend and control over what can be
  * edited and how it is being saved.
