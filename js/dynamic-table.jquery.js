@@ -1,6 +1,4 @@
 /**=======================================================================================
- * RESOURCE: dynamic-table.jquery.js
- * 
  * The Dynamic Table is a grid that displays data in a similar way to a spreadsheet
  * but allows the data to be loaded from you backend and control over what can be
  * edited and how it is being saved.
@@ -10,15 +8,11 @@
    var defaultCellStyle = "ui-dynamic-table-page-cell";
    
    /**====================================================================================
-    * ATTRIBUTE: methods
-    * 
     * Container for the methods.
     *===================================================================================*/
    var methods = {
       
       /**=================================================================================
-       * OPERATION: init
-       * 
        * The initialization method which creates a new instance of the object.
        *================================================================================*/
       init: function(aOptions) {
@@ -98,8 +92,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_initResizeListener
-       * 
        * As resize events are not quite that easy to handle, the following function 
        * handles most of the initialization needed
        *================================================================================*/           
@@ -154,13 +146,11 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_handleResize
-       * 
        * Called when the component gets resized
        *================================================================================*/       
       private_handleResize: function(aEvent) {
        
-         console.log("resizing dynamic grid");
+         //console.log("resizing dynamic grid");
          
          //Get the component that is affected.
          var myComponent            = aEvent.data.component;
@@ -195,8 +185,6 @@
       },
 
       /**=================================================================================
-       * OPERATION: private_handleScroll
-       * 
        * Called when the datagrid content gets scrolled.
        *================================================================================*/        
       private_handleScroll: function(aEvent) {
@@ -221,8 +209,6 @@
       },
 
       /**=================================================================================
-       * OPERATION: private_handleScrollTimeout
-       * 
        * This function picks up at scheduled intervals the need for generating new 
        * visible pages/rows.
        *================================================================================*/        
@@ -233,7 +219,7 @@
          //Only if the options were flagged to refresh.
          if (aOptions.refreshVisible && myTime - aOptions.lastScrollTime > 10)
          {
-            console.log("refresh");
+            //console.log("refresh");
             
             //Reset the flag
             aOptions.refreshVisible = false;
@@ -244,8 +230,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_renderHeader
-       * 
        * Renders the header so that it is fixed and not scrolling.
        *================================================================================*/         
       private_renderHeader : function(aContainer, aColumns, aRowHeight) {
@@ -373,7 +357,7 @@
                      {component: aContainer, column: aColumns[i], columnIndex: i, cell: myCell},
                      function(aEvent) {
 
-                        console.log("Filter");
+                        //console.log("Filter");
                         
                         var myComponent         = aEvent.data.component;
                         var myColumn            = aEvent.data.column;
@@ -456,8 +440,6 @@
       },
 
       /**=================================================================================
-       * OPERATION: private_renderPlaceHolders
-       * 
        * Renders place holders for each of the pages so we can scroll naturally.
        *================================================================================*/        
       private_renderPlaceHolders : function (aComponent, aRowHeight, aPageSize, aLength)
@@ -515,8 +497,6 @@
       },
 
       /**=================================================================================
-       * OPERATION: private_renderPlaceHolder
-       * 
        * Renders an individual placeholder.
        *================================================================================*/         
       private_renderPlaceHolder : function (aContainer, aPageIndex, aHeight, aWidth)
@@ -529,8 +509,6 @@
       },
 
       /**=================================================================================
-       * OPERATION: private_renderVisible
-       * 
        * Renders a the visible rows.
        *================================================================================*/        
       private_renderVisible : function(aComponent) {
@@ -697,8 +675,6 @@
       },
 
       /**=================================================================================
-       * OPERATION: private_renderValue
-       * 
        * Renders a value from it's raw fromat to a human readable string.
        *================================================================================*/         
       private_renderValue : function (aValue, aColumn)
@@ -769,8 +745,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_parseDate
-       * 
        * Parses the supplied value into a date.
        *================================================================================*/        
       private_parseDate : function (aValue) {
@@ -816,8 +790,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_renderDecimal
-       * 
        * Renders a decimal including injecting 1000's separators
        *================================================================================*/          
       private_renderDecimal : function (aValue) {
@@ -833,8 +805,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_sortBy
-       * 
        * Sorts the data by a specific column.
        *================================================================================*/        
       private_sortBy : function (aComponent, aField, aData, aResort)
@@ -873,8 +843,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_sortFunction
-       * 
        * Creates a sort function.
        *================================================================================*/  
       private_sortFunction: function (aField, aData) {
@@ -947,8 +915,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_showFilter
-       * 
        * This function opens a filter pop up for a specific column.
        *================================================================================*/        
       private_showFilter: function(aComponent, aColumn, aColumnIndex, aData, aCell)
@@ -1250,8 +1216,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_getPopUp
-       * 
        * Gets the existing pop-up or creates a new one.
        *================================================================================*/       
       private_getPopUp : function(aComponent, aClass, aHtml)
@@ -1276,8 +1240,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_hideFilter
-       * 
        * Called to hide a filter
        *================================================================================*/        
       private_hideFilter: function(aEvent, aComponent)
@@ -1299,8 +1261,6 @@
       },      
       
       /**=================================================================================
-       * OPERATION: private_filterBy
-       * 
        * Adds a specific filter to the chain of filters.
        *================================================================================*/        
       private_filterBy: function(aComponent, aColumn, aColumnIndex, aData) {
@@ -1400,8 +1360,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: private_applyFilter
-       * 
        * Actually does the filtering of the dataset
        *================================================================================*/ 
       private_applyFilter: function(aData)
@@ -1447,6 +1405,10 @@
          }
       },
       
+      /**=================================================================================
+       * Called when a cell gets clicked to dispatch the data and activate the editor
+       * if needed.
+       *================================================================================*/ 
       private_handleCellClick: function(aEvent) {
       
          var myComponent                 = aEvent.data.component;
@@ -1462,6 +1424,9 @@
          methods.private_selectRow(myComponent, myCell, myTableLocation);
       },
 
+      /**=================================================================================
+       * Called when a cell gets doublecklicked to dispatch the data.
+       *================================================================================*/ 
       private_handleCellDoubleClick: function(aEvent) {
       
          var myComponent                 = aEvent.data.component;
@@ -1478,6 +1443,10 @@
          });             
       },
       
+      /**=================================================================================
+       * Called when a row gets selected either by mouse or keyboard to dispatch the data
+       * and ensure the cell is in view.
+       *================================================================================*/ 
       private_selectRow: function (aComponent, aCell, aTableLocation) {
       
          var myData                      = aComponent.data("dynamicTable");
@@ -1517,7 +1486,10 @@
             myContainer.scrollTop(myContainer.scrollTop() - myDifference);         
          }
       },
-      
+
+      /**=================================================================================
+       * Processes key stokes
+       *================================================================================*/ 
       private_handleKey: function(aEvent) {
          
          var myKey               = aEvent.which;
@@ -1576,8 +1548,8 @@
          
          if (myLocationChanged)
          {
-            console.log(myLocation);
-            console.log($("#ui-dynamic-table-page-cell-" + myLocation[0] + "-" + myLocation[1]));
+            //console.log(myLocation);
+            //console.log($("#ui-dynamic-table-page-cell-" + myLocation[0] + "-" + myLocation[1]));
             
             methods.private_selectRow(
                   myComponent, 
@@ -1588,6 +1560,9 @@
          
       },
       
+      /**=================================================================================
+       * Called when a cell gets seclect to activate the editor if it exists.
+       *================================================================================*/ 
       private_activateEditor: function(aComponent, aCell, aTableLocation) {
          
          var myComponent                 = aComponent;
@@ -1633,6 +1608,9 @@
          }
       },
       
+      /**=================================================================================
+       * Called when an editor finishes with editing to persist the data.
+       *================================================================================*/ 
       private_editorCallback: function(aEditor, aType, aValue, aState){
          
          var myComponent               = aEditor.closest(".ui-dynamic-table");
@@ -1692,7 +1670,7 @@
             {
                for (var i = myColumnIndex + 1; i < myColumns.length; i++)
                {
-                  console.log("Checking column: " + i);
+                  //console.log("Checking column: " + i);
                   
                   if(myColumns[i].editor != null)
                   {
@@ -1713,7 +1691,9 @@
          }
       },
       
-
+      /**=================================================================================
+       * Called when a row gets checked
+       *================================================================================*/ 
       private_handleRowCheck : function (aEvent)      {
       
          var myComponent         = aEvent.data.component;
@@ -1747,9 +1727,7 @@
       },
       
       /**=================================================================================
-       * OPERATION: list
-       * 
-       * Sets the list data of the datagrid
+       * Sets the data and column definitions for the table
        *================================================================================*/   
       data: function (aData, aColumns){
          return this.each(function() {
@@ -1798,8 +1776,6 @@
       },
       
       /**=================================================================================
-       * OPERATION: updateRow
-       * 
        * Updates a row of data without re-rendering the entire table as the "data" 
        * function would do.
        *================================================================================*/         
@@ -1844,12 +1820,18 @@
          });
       },
       
+      /**=================================================================================
+       * Returns all rows that have been checked.
+       *================================================================================*/ 
       checkedRows : function () {
          
          var myData           = this.first().data("dynamicTable");
          return (myData.checkedRows != null ? myData.checkedRows : []);
       },
 
+      /**=================================================================================
+       * Can be used to update options.
+       *================================================================================*/ 
       option : function (aOption, aValue) {
          return this.each(function() {
             var myData              = $(this).data("dynamicTable");
@@ -1858,10 +1840,8 @@
       },
       
       /**=================================================================================
-       * OPERATION: print
-       * 
-       * Generates a static version of the Grid to an iframe and sends the command to
-       * print that iframe to the browser.
+       * Generates a static version of the Grid to an div and sends the command to
+       * print that div. Hides the rest of the page.
        *================================================================================*/           
       print : function () {
          var myComponent         = $(this);
@@ -1946,8 +1926,6 @@
    };
    
    /**====================================================================================
-    * OPERATION: dynamicTable
-    * 
     * The plugin method that gets added to the jQuery method object.
     *===================================================================================*/         
    $.fn.dynamicTable       = function(aMethod) {
