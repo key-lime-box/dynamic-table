@@ -1,0 +1,189 @@
+<!doctype html>
+
+<html>
+   
+   <head>
+   
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      
+      <title>Sample of the Dynamic Table in Use</title>
+      
+      <link rel="stylesheet" href="../css/dynamic-table.jquery.css"/>
+      <link rel="stylesheet" href="../css/jquery-ui.css"/>
+   
+      <script type="text/javascript" src="../js/jquery.js"></script>
+      <script type="text/javascript" src="../js/jquery-ui.js"></script>
+      <script type="text/javascript" src="../js/moment.js"></script>
+      <script type="text/javascript" src="../js/dynamic-table.jquery.js"></script>
+      <script type="text/javascript" src="../js/dynamic-table-editor.jquery.js"></script>
+   
+      <script>
+      
+      $(function() {
+         
+         // Initialize table
+         $("#sample-grid").dynamicTable({
+            fillParent : false,
+            showCounter: true
+         });
+         
+         // Define columns
+         var myColumns = [{  // Hidden Identifier column
+                             name       : "Identifier",
+                             type       : "number",
+                             visible    : false,
+                             field      : "id",
+                          },{// Searchable text column
+                             name       : "Name",
+                             type       : "string",
+                             visible    : true,
+                             filterType : "search",
+                             width      : 200,
+                             field      : "name",
+                          },{// Date column with date filter
+                             name       : "Birth Date",
+                             type       : "date",
+                             visible    : true,
+                             format     : "d-MMM-YYYY", 
+                             filterType : "dateRange",
+                             cssClass   : function (aColumn, aValue, aDisplayValue) {
+                                return aValue != null  ? "has-birth-date" : null
+                             },
+                             field      : "birthDate",
+                          },{// Limited values with default picklist filter 
+                             name       : "Country",
+                             type       : "string",
+                             visible    : true,
+                             field      : "country",
+                          },{ 
+                             name       : "State",
+                             type       : "string",
+                             visible    : true,
+                             field      : "state",
+                          },{ 
+                             name       : "Note",
+                             type       : "string",
+                             visible    : true,
+                             field      : "note",
+                             editor     : $("<div/>").dynamicTableEditor({
+                                editHandler: function(aData, aContext) {
+                                   $("#save-data").html("Saving note: <strong>" + aData + "</strong>");       
+                                }
+                             })              
+                          },{ 
+                             name       : "Language",
+                             type       : "string",
+                             visible    : true,
+                             field      : "language",
+                          }];
+         
+         
+         // Get the data. This would usually be done in an AJAS call
+         // ($.getJSON) but for demo purposes we show hardcoded data
+         var myData = [
+                       {id : 10001, name : "Bill Smith", birthDate : new Date(1956, 3, 12).getTime(), country : "United States", state : "Texas", note : "Test", language : "English"},
+                       {id : 10002, name : "Michael Jones", birthDate : new Date(1975, 7, 23).getTime(), country : "United States", state : "Florida", language : "English"},
+                       {id : 10003, name : "Heinz Mayer", birthDate : new Date(1972, 8, 2), country : "Germany", state : "Bayern", language : "German"},
+                       {id : 10004, name : "Mary Miller", birthDate : new Date(1981, 1, 6), country : "United States", state : "California", language : "English"},
+                       {id : 10005, name : "Jose Gonzalez", birthDate : new Date(1959, 1, 6), country : "Mexico", language : "Spanish"},
+                       {id : 10006, name : "Giovanni D'Agostini", birthDate : new Date(1875, 2, 3), country : "Italy", state : "L'Aquila", language : "Italian"},
+                       
+                       {id : 10001, name : "Bill Smith", birthDate : new Date(1956, 3, 12).getTime(), country : "United States", state : "Texas", note : "Test", language : "English"},
+                       {id : 10002, name : "Michael Jones", birthDate : new Date(1975, 7, 23).getTime(), country : "United States", state : "Florida", language : "English"},
+                       {id : 10003, name : "Heinz Mayer", birthDate : new Date(1972, 8, 2), country : "Germany", state : "Bayern", language : "German"},
+                       {id : 10004, name : "Mary Miller", birthDate : new Date(1981, 1, 6), country : "United States", state : "California", language : "English"},
+                       {id : 10005, name : "Jose Gonzalez", birthDate : new Date(1959, 1, 6), country : "Mexico", language : "Spanish"},
+                       {id : 10006, name : "Giovanni D'Agostini", birthDate : new Date(1875, 2, 3), country : "Italy", state : "L'Aquila", language : "Italian"},
+                       
+                       {id : 10001, name : "Bill Smith", birthDate : new Date(1956, 3, 12).getTime(), country : "United States", state : "Texas", note : "Test", language : "English"},
+                       {id : 10002, name : "Michael Jones", birthDate : new Date(1975, 7, 23).getTime(), country : "United States", state : "Florida", language : "English"},
+                       {id : 10003, name : "Heinz Mayer", birthDate : new Date(1972, 8, 2), country : "Germany", state : "Bayern", language : "German"},
+                       {id : 10004, name : "Mary Miller", birthDate : new Date(1981, 1, 6), country : "United States", state : "California", language : "English"},
+                       {id : 10005, name : "Jose Gonzalez", birthDate : new Date(1959, 1, 6), country : "Mexico", language : "Spanish"},
+                       {id : 10006, name : "Giovanni D'Agostini", birthDate : new Date(1875, 2, 3), country : "Italy", state : "L'Aquila", language : "Italian"},
+
+                       {id : 10001, name : "Bill Smith", birthDate : new Date(1956, 3, 12).getTime(), country : "United States", state : "Texas", note : "Test", language : "English"},
+                       {id : 10002, name : "Michael Jones", birthDate : new Date(1975, 7, 23).getTime(), country : "United States", state : "Florida", language : "English"},
+                       {id : 10003, name : "Heinz Mayer", birthDate : new Date(1972, 8, 2), country : "Germany", state : "Bayern", language : "German"},
+                       {id : 10004, name : "Mary Miller", birthDate : new Date(1981, 1, 6), country : "United States", state : "California", language : "English"},
+                       {id : 10005, name : "Jose Gonzalez", birthDate : new Date(1959, 1, 6), country : "Mexico", language : "Spanish"},
+                       {id : 10006, name : "Giovanni D'Agostini", birthDate : new Date(1875, 2, 3), country : "Italy", state : "L'Aquila", language : "Italian"},
+                       
+                       {id : 10001, name : "Bill Smith", birthDate : new Date(1956, 3, 12).getTime(), country : "United States", state : "Texas", note : "Test", language : "English"},
+                       {id : 10002, name : "Michael Jones", birthDate : new Date(1975, 7, 23).getTime(), country : "United States", state : "Florida", language : "English"},
+                       {id : 10003, name : "Heinz Mayer", birthDate : new Date(1972, 8, 2), country : "Germany", state : "Bayern", language : "German"},
+                       {id : 10004, name : "Mary Miller", birthDate : new Date(1981, 1, 6), country : "United States", state : "California", language : "English"},
+                       {id : 10005, name : "Jose Gonzalez", birthDate : new Date(1959, 1, 6), country : "Mexico", language : "Spanish"},
+                       {id : 10006, name : "Giovanni D'Agostini", birthDate : new Date(1875, 2, 3), country : "Italy", state : "L'Aquila", language : "Italian"},
+                       
+                       {id : 10001, name : "Bill Smith", birthDate : new Date(1956, 3, 12).getTime(), country : "United States", state : "Texas", note : "Test", language : "English"},
+                       {id : 10002, name : "Michael Jones", birthDate : new Date(1975, 7, 23).getTime(), country : "United States", state : "Florida", language : "English"},
+                       {id : 10003, name : "Heinz Mayer", birthDate : new Date(1972, 8, 2), country : "Germany", state : "Bayern", language : "German"},
+                       {id : 10004, name : "Mary Miller", birthDate : new Date(1981, 1, 6), country : "United States", state : "California", language : "English"},
+                       {id : 10005, name : "Jose Gonzalez", birthDate : new Date(1959, 1, 6), country : "Mexico", language : "Spanish"},
+                       {id : 10006, name : "Giovanni D'Agostini", birthDate : new Date(1875, 2, 3), country : "Italy", state : "L'Aquila", language : "Italian"},
+                       
+                       ];
+         
+         // Load the data into the grid
+         $("#sample-grid").dynamicTable("data", myData, myColumns);
+         
+         // Add event listeners:
+         $("#sample-grid").on("rowSelect", function(aEvent) {
+            $("#selected-data").html("You selected <strong>" + aEvent.row.name + "</strong>");     
+         });  
+         
+         // Add event listeners:
+         $("#sample-grid").on("rowDoubleClick", function(aEvent) {
+            $("#selected-data").html("You <em>double-clicked</em> <strong>" + aEvent.row.name + "</strong>");     
+         });  
+         
+      });
+      
+      </script>
+      
+      <style type="text/css">
+      
+         body {
+            font-family: sans-serif;
+            font-size: 14px;
+            margin: 0px;
+            padding: 20px;
+            background-color: #666666;
+         }
+         
+         #sample-grid {
+            width: 700px; 
+            height: 500px;
+         }
+      
+         #selected-data,
+         #save-data {
+            width: 700px; 
+            background-color: #f3f3f3;
+            padding: 5px;
+            margin-top: 10px;
+            border-radius: 5px;
+            box-sizing:border-box;
+         }
+         
+         .has-birth-date {
+            background-color: #96e2fe;
+         }
+      
+      </style>
+      
+   </head>
+   
+   <body>
+   
+      <div id="sample-grid">
+      
+      </div>      
+   
+      <div id="selected-data">&nbsp;</div>
+      <div id="save-data">&nbsp;</div>
+   
+   </body>
+   
+</html>

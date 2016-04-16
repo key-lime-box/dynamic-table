@@ -622,12 +622,13 @@
                      //If the column is visible...
                      if (myColumns[c].visible)
                      {
-                        var myValue          = methods.private_renderValue(myData.data[r][c], myColumns[c]);
+                        var myRawValue       = methods.private_getCellValue(myData.data[r], c, myColumns[c])
+                        var myValue          = methods.private_renderValue(myRawValue, myColumns[c]);
                         var myDynamicClass   = "";
 
                         if (myColumns[c].cssClass != null) {
                            if (typeof myColumns[c].cssClass === "function") {
-                              myDynamicClass = myColumns[c].cssClass(myColumns[c], myData.data[r][c], myValue); 
+                              myDynamicClass = myColumns[c].cssClass(myColumns[c], myRawValue, myValue); 
                            }
                            else {
                               myDynamicClass = myColumns[c].cssClass;
@@ -686,7 +687,15 @@
          //Get the actual placeholder
          //console.log("Complete:" + ((new Date()).getTime() - myStartTime));
       },
-      
+
+      /**=================================================================================
+       * Returns the value of the given cell, either by index access or by using the
+       * field attribute.
+       *================================================================================*/       
+      private_getCellValue : function(aRow, aIndex, aColumn) {
+         return aRow[(aColumn.field || aIndex)];
+      },
+
       /**=================================================================================
        * OPERATION: private_renderValue
        * 
@@ -1012,7 +1021,7 @@
             
             for (var i = 0; i < aData.data.length; i++)
             {
-               var myValue          = aData.data[i][aColumnIndex];
+               var myValue          = methods.private_getCellValue(aData.data[i], aColumnIndex, aColumn);
             
                if (myValues.indexOf(myValue) == -1 && myValue != null)
                {
@@ -1296,11 +1305,13 @@
        *================================================================================*/        
       private_filterBy: function(aComponent, aColumn, aColumnIndex, aData) {
          
+         var myField = aColumn.field || aColumnIndex;
+
          //Go through each of the active filters to see if the column has already one 
          //applied to it. If so remove that.
          for (var i = 0; i < aData.activeFilters.length; i++)
          {
-            if (aData.activeFilters[i].field == aColumnIndex)
+            if (aData.activeFilters[i].field == myField)
             {
                aData.activeFilters.splice(i, 1);
                break;
@@ -1322,7 +1333,7 @@
             if (myValue.indexOf("-show-all") == -1)
             {
                aData.activeFilters.push({
-                  field:         aColumnIndex,
+                  field:         myField,
                   includeBlanks: myIncludeBlanks,
                   values:        myValue,
                   type:          aColumn.filterType
@@ -1341,7 +1352,7 @@
             if (myValue != null && jQuery.trim(myValue) != "")
             {
                aData.activeFilters.push({
-                  field:         aColumnIndex,
+                  field:         myField,
                   value:         myValue.toLowerCase(),
                   type:          aColumn.filterType
                });
@@ -1360,7 +1371,7 @@
              if (myStart != null || myEnd != null)
              {
                 aData.activeFilters.push({
-                   field:         aColumnIndex,
+                   field:         myField,
                    type:          aColumn.filterType,
                    startDate:     myStart ? myStart.getTime() : methods.private_parseDate('1900-01-01').getTime(),
                    endDate:       myEnd   ? myEnd.getTime()   : methods.private_parseDate('2100-01-01').getTime(),

@@ -30,8 +30,7 @@ the components look more like Bootstrap.
  
 ## Getting Started
 
-[Working sample](sample/index.html)
-that goes with this introduction.
+[Working sample](sample/index.html) that goes with this introduction.
 
 ### 0) Import
 
@@ -82,6 +81,7 @@ Available options are:
  * `name`: The name of the column.
  * `type` (default: `"string"`) : The datatype of the columns. Options are: `string`, `date`, `number`
    and `boolean`.
+ * `field`: This is mostly for use when in the data passed in the rows are an object rather than an array, in which case this attribute is used to lookup which value to show in which cell.
  * `visible` (default: `false`): Whether or not the column is visible or not. This allows for
    hiddend data columns, such as ID fields etc.
  * `filterType` (default: `list`): The type of filter to display for the column.
@@ -103,21 +103,30 @@ Available options are:
 You can get the data using an AJAX call (`$.getJSON()`) or generate it in your
 JavaScript.
 
-The format expected is an Array, that contains an array for every row. The
-grid will map every element in the row array to the column at the same index.
+The table takes and array of rows. These rows can be either arrays or regular objects. In case objects are supplied the `field` attribute needs to be set on the columns, so the table knows which column to map which field to.
 
-To hide items in the array, add invisible columns to the column list.
+When the rows are arrays the table will map the field by index to the respective column.To hide items in the array, add invisible columns to the column list.
 
-Sample data:
+Sample data as array:
 
 ```javascript
 var myData = [
-                [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
-                [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
-                [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
-                [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
-                [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
-             ];
+   [10001, "Bill Smith", new Date(1956, 3, 12), "United States", "Texas", "English"],
+   [10002, "Michael Jones", new Date(1975, 7, 23), "United States", "Florida", "English"],
+   [10003, "Heinz Mayer", new Date(1972, 8, 2), "Germany", "Bayern", "German"],
+   [10004, "Mary Miller", new Date(1981, 1, 6), "United States", "California", "English"],
+   [10005, "Jose Gonzalez", new Date(1959, 1, 6), "Mexico", null, "Spanish"],
+];
+```
+
+Sample data as object:
+
+```javascript
+var myData = [
+   {id : 10001, name : "Bill Smith", birthDate : new Date(1956, 3, 12).getTime(), country : "United States", state : "Texas", note : "Test", language : "English"},
+   {id : 10002, name : "Michael Jones", birthDate : new Date(1975, 7, 23).getTime(), country : "United States", state : "Florida", language : "English"},
+   {id : 10003, name : "Heinz Mayer", birthDate : new Date(1972, 8, 2), country : "Germany", state : "Bayern", language : "German"},
+]
 ```
 
 ### 4) Putting it all together
