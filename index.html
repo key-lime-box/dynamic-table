@@ -1,48 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Dynamic Table by key-lime-box</title>
+    <meta name="description" content="Dynamic Table : Dynamic Table jQuery Plug-in">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Dynamic Table</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Dynamic Table</h1>
-        <p>Dynamic Table jQuery Plug-in</p>
 
-        <p class="view"><a href="https://github.com/key-lime-box/dynamic-table">View the Project on GitHub <small>key-lime-box/dynamic-table</small></a></p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/key-lime-box/dynamic-table">View on GitHub</a>
 
+          <h1 id="project_title">Dynamic Table</h1>
+          <h2 id="project_tagline">Dynamic Table jQuery Plug-in</h2>
 
-        <ul>
-          <li><a href="https://github.com/key-lime-box/dynamic-table/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/key-lime-box/dynamic-table/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/key-lime-box/dynamic-table">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/key-lime-box/dynamic-table/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/key-lime-box/dynamic-table/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>
-<a id="dynamic-table---jquery-plug-in" class="anchor" href="#dynamic-table---jquery-plug-in" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dynamic Table - jQuery Plug-in</h1>
+<a id="dynamic-table---jquery-plug-in" class="anchor" href="#dynamic-table---jquery-plug-in" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dynamic Table - jQuery Plug-in</h1>
 
 <h2>
-<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
 
 <p>The <em>Dynamic Table</em> is a table that displays data in a similar way to a spreadsheet
-but allows the data to be loaded from you backend and control over what can be
+but allows the data to be loaded from your backend and control over what can be
 edited and how it is being saved.</p>
 
 <p>It allows advanced filtering and sorting as well as interaction with your 
 application.</p>
 
 <h2>
-<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2>
 
 <ul>
 <li>Spreadsheet feel</li>
@@ -55,7 +58,7 @@ application.</p>
 </ul>
 
 <h2>
-<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prerequisites</h2>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prerequisites</h2>
 
 <ul>
 <li>jQuery</li>
@@ -67,23 +70,25 @@ application.</p>
 the components look more like Bootstrap.</p>
 
 <h2>
-<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h2>
 
-<p><a href="sample/index.html">Working sample</a>
-that goes with this introduction.</p>
+<p>To see how the dynamic table works in production see this <a href="https://rawgit.com/key-lime-box/dynamic-table/master/sample/index.html">working sample</a> that goes with the <em>Getting Started</em> section.</p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h2>
 
 <h3>
-<a id="0-import" class="anchor" href="#0-import" aria-hidden="true"><span class="octicon octicon-link"></span></a>0) Import</h3>
+<a id="0-import" class="anchor" href="#0-import" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>0) Import</h3>
 
 <p>First import the <code>dynamic-table.jquery.js</code> and any dependencies.</p>
 
 <h3>
-<a id="1-initialize-plug-in" class="anchor" href="#1-initialize-plug-in" aria-hidden="true"><span class="octicon octicon-link"></span></a>1) Initialize Plug-in</h3>
+<a id="1-initialize-plug-in" class="anchor" href="#1-initialize-plug-in" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1) Initialize Plug-in</h3>
 
 <p>To initialize the component select an empty element, preferably a <code>&lt;div&gt;</code>
 and apply the jQuery plug-in:</p>
 
-<div class="highlight highlight-javascript"><pre>    $(<span class="pl-s1"><span class="pl-pds">"</span>#sample-grid<span class="pl-pds">"</span></span>).dynamicTable({
+<div class="highlight highlight-source-js"><pre>    <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#sample-grid<span class="pl-pds">"</span></span>).<span class="pl-en">dynamicTable</span>({
         fillParent <span class="pl-k">:</span> <span class="pl-c1">false</span>,
         showCounter<span class="pl-k">:</span> <span class="pl-c1">true</span>
     });</pre></div>
@@ -106,18 +111,18 @@ column is also visible.</li>
 </ul>
 
 <h3>
-<a id="2-define-columns" class="anchor" href="#2-define-columns" aria-hidden="true"><span class="octicon octicon-link"></span></a>2) Define Columns</h3>
+<a id="2-define-columns" class="anchor" href="#2-define-columns" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2) Define Columns</h3>
 
 <p>Next you define the columns as an array of column definitions</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> myColumns <span class="pl-k">=</span> [{
-                    name       <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>,
-                    type       <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>string<span class="pl-pds">"</span></span>,
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> myColumns <span class="pl-k">=</span> [{
+                    name       <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>,
+                    type       <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>string<span class="pl-pds">"</span></span>,
                     visible    <span class="pl-k">:</span> <span class="pl-c1">true</span>,
-                    filterType <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>search<span class="pl-pds">"</span></span>,
+                    filterType <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>search<span class="pl-pds">"</span></span>,
                     width      <span class="pl-k">:</span> <span class="pl-c1">200</span>
                 },
-                [...]
+                [<span class="pl-k">...</span>]
                 ]</pre></div>
 
 <p>Available options are:</p>
@@ -126,8 +131,10 @@ column is also visible.</li>
 <li>
 <code>name</code>: The name of the column.</li>
 <li>
-<code>type</code> (default: <code>"string"</code>) : The datatype of the columns. Options are: <code>string</code>, <code>date</code>, 'number'
+<code>type</code> (default: <code>"string"</code>) : The datatype of the columns. Options are: <code>string</code>, <code>date</code>, <code>number</code>
 and <code>boolean</code>.</li>
+<li>
+<code>field</code>: This is mostly for use when in the data passed in the rows are an object rather than an array, in which case this attribute is used to lookup which value to show in which cell.</li>
 <li>
 <code>visible</code> (default: <code>false</code>): Whether or not the column is visible or not. This allows for
 hiddend data columns, such as ID fields etc.</li>
@@ -141,31 +148,45 @@ Options are: <code>list</code>, <code>search</code> and <code>dateRange</code>.<
 format is based on the moment.js format.</li>
 <li>
 <code>editor</code>: Instance of the editor used to allow this cell to be edited.</li>
+<li>
+<code>cssClass</code> : Specify a css class that is applied to this column. If a string is 
+supplied the class is applied to all cells in that column. Alternatively a function 
+can be supplied that returns the class dynamically. The function is of the following 
+format <code>function(aColumn, aValue, aDisplayValue)</code>. The <code>aColumn</code> parameter
+gets passed the column data, the <code>aValue</code> parameter gets passed the original value
+and the <code>aDisplayValue</code> gets passed the string which is to be rendered.</li>
 </ul>
 
 <h3>
-<a id="3-getting-the-data" class="anchor" href="#3-getting-the-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>3) Getting the data</h3>
+<a id="3-getting-the-data" class="anchor" href="#3-getting-the-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3) Getting the data</h3>
 
 <p>You can get the data using an AJAX call (<code>$.getJSON()</code>) or generate it in your
 JavaScript.</p>
 
-<p>The format expected is an Array, that contains an array for every row. The
-grid will map every element in the row array to the column at the same index.</p>
+<p>The table takes and array of rows. These rows can be either arrays or regular objects. In case objects are supplied the <code>field</code> attribute needs to be set on the columns, so the table knows which column to map which field to.</p>
 
-<p>To hide items in the array, add invisible columns to the column list.</p>
+<p>When the rows are arrays the table will map the field by index to the respective column.To hide items in the array, add invisible columns to the column list.</p>
 
-<p>Sample data:</p>
+<p>Sample data as array:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> myData <span class="pl-k">=</span> [
-                [<span class="pl-c1">10001</span>, <span class="pl-s1"><span class="pl-pds">"</span>Bill Smith<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1956</span>, <span class="pl-c1">3</span>, <span class="pl-c1">12</span>), <span class="pl-s1"><span class="pl-pds">"</span>United States<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>Texas<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>English<span class="pl-pds">"</span></span>],
-                [<span class="pl-c1">10002</span>, <span class="pl-s1"><span class="pl-pds">"</span>Michael Jones<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1975</span>, <span class="pl-c1">7</span>, <span class="pl-c1">23</span>), <span class="pl-s1"><span class="pl-pds">"</span>United States<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>Florida<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>English<span class="pl-pds">"</span></span>],
-                [<span class="pl-c1">10003</span>, <span class="pl-s1"><span class="pl-pds">"</span>Heinz Mayer<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1972</span>, <span class="pl-c1">8</span>, <span class="pl-c1">2</span>), <span class="pl-s1"><span class="pl-pds">"</span>Germany<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>Bayern<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>German<span class="pl-pds">"</span></span>],
-                [<span class="pl-c1">10004</span>, <span class="pl-s1"><span class="pl-pds">"</span>Mary Miller<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1981</span>, <span class="pl-c1">1</span>, <span class="pl-c1">6</span>), <span class="pl-s1"><span class="pl-pds">"</span>United States<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>California<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>English<span class="pl-pds">"</span></span>],
-                [<span class="pl-c1">10005</span>, <span class="pl-s1"><span class="pl-pds">"</span>Jose Gonzalez<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1959</span>, <span class="pl-c1">1</span>, <span class="pl-c1">6</span>), <span class="pl-s1"><span class="pl-pds">"</span>Mexico<span class="pl-pds">"</span></span>, <span class="pl-c1">null</span>, <span class="pl-s1"><span class="pl-pds">"</span>Spanish<span class="pl-pds">"</span></span>],
-             ];</pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> myData <span class="pl-k">=</span> [
+   [<span class="pl-c1">10001</span>, <span class="pl-s"><span class="pl-pds">"</span>Bill Smith<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1956</span>, <span class="pl-c1">3</span>, <span class="pl-c1">12</span>), <span class="pl-s"><span class="pl-pds">"</span>United States<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Texas<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>English<span class="pl-pds">"</span></span>],
+   [<span class="pl-c1">10002</span>, <span class="pl-s"><span class="pl-pds">"</span>Michael Jones<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1975</span>, <span class="pl-c1">7</span>, <span class="pl-c1">23</span>), <span class="pl-s"><span class="pl-pds">"</span>United States<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Florida<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>English<span class="pl-pds">"</span></span>],
+   [<span class="pl-c1">10003</span>, <span class="pl-s"><span class="pl-pds">"</span>Heinz Mayer<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1972</span>, <span class="pl-c1">8</span>, <span class="pl-c1">2</span>), <span class="pl-s"><span class="pl-pds">"</span>Germany<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Bayern<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>German<span class="pl-pds">"</span></span>],
+   [<span class="pl-c1">10004</span>, <span class="pl-s"><span class="pl-pds">"</span>Mary Miller<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1981</span>, <span class="pl-c1">1</span>, <span class="pl-c1">6</span>), <span class="pl-s"><span class="pl-pds">"</span>United States<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>California<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>English<span class="pl-pds">"</span></span>],
+   [<span class="pl-c1">10005</span>, <span class="pl-s"><span class="pl-pds">"</span>Jose Gonzalez<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1959</span>, <span class="pl-c1">1</span>, <span class="pl-c1">6</span>), <span class="pl-s"><span class="pl-pds">"</span>Mexico<span class="pl-pds">"</span></span>, <span class="pl-c1">null</span>, <span class="pl-s"><span class="pl-pds">"</span>Spanish<span class="pl-pds">"</span></span>],
+];</pre></div>
+
+<p>Sample data as object:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> myData <span class="pl-k">=</span> [
+   {id <span class="pl-k">:</span> <span class="pl-c1">10001</span>, name <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Bill Smith<span class="pl-pds">"</span></span>, birthDate <span class="pl-k">:</span> <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1956</span>, <span class="pl-c1">3</span>, <span class="pl-c1">12</span>).<span class="pl-c1">getTime</span>(), country <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>United States<span class="pl-pds">"</span></span>, state <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Texas<span class="pl-pds">"</span></span>, note <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Test<span class="pl-pds">"</span></span>, language <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>English<span class="pl-pds">"</span></span>},
+   {id <span class="pl-k">:</span> <span class="pl-c1">10002</span>, name <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Michael Jones<span class="pl-pds">"</span></span>, birthDate <span class="pl-k">:</span> <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1975</span>, <span class="pl-c1">7</span>, <span class="pl-c1">23</span>).<span class="pl-c1">getTime</span>(), country <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>United States<span class="pl-pds">"</span></span>, state <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Florida<span class="pl-pds">"</span></span>, language <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>English<span class="pl-pds">"</span></span>},
+   {id <span class="pl-k">:</span> <span class="pl-c1">10003</span>, name <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Heinz Mayer<span class="pl-pds">"</span></span>, birthDate <span class="pl-k">:</span> <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">1972</span>, <span class="pl-c1">8</span>, <span class="pl-c1">2</span>), country <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Germany<span class="pl-pds">"</span></span>, state <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Bayern<span class="pl-pds">"</span></span>, language <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>German<span class="pl-pds">"</span></span>},
+]</pre></div>
 
 <h3>
-<a id="4-putting-it-all-together" class="anchor" href="#4-putting-it-all-together" aria-hidden="true"><span class="octicon octicon-link"></span></a>4) Putting it all together</h3>
+<a id="4-putting-it-all-together" class="anchor" href="#4-putting-it-all-together" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4) Putting it all together</h3>
 
 <p>Now that we have our element on the page, our columns and our data we just need
 to load it all into the table:</p>
@@ -174,7 +195,7 @@ to load it all into the table:</p>
 </code></pre>
 
 <h2>
-<a id="interacting-with-the-table" class="anchor" href="#interacting-with-the-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interacting with the table</h2>
+<a id="interacting-with-the-table" class="anchor" href="#interacting-with-the-table" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Interacting with the table</h2>
 
 <p>To allow your application to interact with the table, it dispatches two events:</p>
 
@@ -189,12 +210,12 @@ interaction or single click.</li>
 <p>The <code>event</code> parameter gets a <code>row</code> property attached, which contains the original
 data of the affected row.</p>
 
-<div class="highlight highlight-javascript"><pre>$(<span class="pl-s1"><span class="pl-pds">"</span>#sample-grid<span class="pl-pds">"</span></span>).on(<span class="pl-s1"><span class="pl-pds">"</span>rowSelect<span class="pl-pds">"</span></span>, <span class="pl-st">function</span>(<span class="pl-vpf">aEvent</span>) {
-    $(<span class="pl-s1"><span class="pl-pds">"</span>#selected-data<span class="pl-pds">"</span></span>).html(<span class="pl-s1"><span class="pl-pds">"</span>You selected &lt;strong&gt;<span class="pl-pds">"</span></span> <span class="pl-k">+</span> aEvent.row[<span class="pl-c1">1</span>] <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">"</span>&lt;/strong&gt;<span class="pl-pds">"</span></span>);     
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#sample-grid<span class="pl-pds">"</span></span>).<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">"</span>rowSelect<span class="pl-pds">"</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">aEvent</span>) {
+    <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#selected-data<span class="pl-pds">"</span></span>).<span class="pl-en">html</span>(<span class="pl-s"><span class="pl-pds">"</span>You selected &lt;strong&gt;<span class="pl-pds">"</span></span> <span class="pl-k">+</span> <span class="pl-smi">aEvent</span>.<span class="pl-smi">row</span>[<span class="pl-c1">1</span>] <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;/strong&gt;<span class="pl-pds">"</span></span>);     
 });  </pre></div>
 
 <h2>
-<a id="editing-content" class="anchor" href="#editing-content" aria-hidden="true"><span class="octicon octicon-link"></span></a>Editing content</h2>
+<a id="editing-content" class="anchor" href="#editing-content" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Editing content</h2>
 
 <p>So far we have only dealt with content loaded from the database that the user
 cannot interact with. </p>
@@ -206,9 +227,9 @@ separate plug-in: <code>dynamic-table-editor.jquery.js</code></p>
 
 <p>To instanciate an editor call the following:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> myEditor <span class="pl-k">=</span> $(<span class="pl-s1"><span class="pl-pds">"</span>&lt;div/&gt;<span class="pl-pds">"</span></span>).dynamicTableEditor({
-    type <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>,
-    <span class="pl-en">editHandler</span>: <span class="pl-st">function</span>(<span class="pl-vpf">aData</span>) {
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> myEditor <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>&lt;div/&gt;<span class="pl-pds">"</span></span>).<span class="pl-en">dynamicTableEditor</span>({
+    type <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>,
+    <span class="pl-en">editHandler</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">aData</span>) {
         <span class="pl-c">// Save here:</span>
         <span class="pl-c">//$.post(</span>
         <span class="pl-c">//    ...</span>
@@ -259,13 +280,30 @@ is the ID that gets returned when selected.</li>
 <code>nameProperty</code>: If the values are a complex object, this defines which property
 is the name that gets shown</li>
 </ul>
+
+<p>Sample <code>list</code> editor:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> myEditor <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>&lt;div/&gt;<span class="pl-pds">"</span></span>).<span class="pl-en">dynamicTableEditor</span>({
+    type <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span>,
+    values <span class="pl-k">:</span> [{id <span class="pl-k">:</span> <span class="pl-c1">1</span>, name <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Option #1<span class="pl-pds">"</span></span>}, {id <span class="pl-k">:</span> <span class="pl-c1">2</span>, name <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Option #2<span class="pl-pds">"</span></span>}, {id <span class="pl-k">:</span> <span class="pl-c1">3</span>, name <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Option #3<span class="pl-pds">"</span></span>}],
+    idProperty <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>,
+    nameProperty <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>,
+    <span class="pl-en">editHandler</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">aData</span>) {
+        <span class="pl-c">// ...</span>
+    }
+});</pre></div>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/key-lime-box">key-lime-box</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Dynamic Table maintained by <a href="https://github.com/key-lime-box">key-lime-box</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
     
+
   </body>
 </html>
