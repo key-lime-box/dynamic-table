@@ -28,9 +28,11 @@ application.
 If you are using Bootstrap the JQuery-Bootstrap project is recommended to make 
 the components look more like Bootstrap.
  
-## Getting Started
+## Example
 
-[Working sample](sample/index.html) that goes with this introduction.
+To see how the dynamic table works in production see this [working sample](https://rawgit.com/key-lime-box/dynamic-table/master/sample/index.html) that goes with the *Getting Started* section.
+
+## Getting Started
 
 ### 0) Import
 
