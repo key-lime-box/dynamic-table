@@ -995,7 +995,7 @@
             for (var i = 0; i < aData.data.length; i++)
             {
                var myValue          = methods.private_getCellValue(aData.data[i], aColumnIndex, aColumn);
-            
+
                if (myValues.indexOf(myValue) == -1 && myValue != null)
                {
                   myValues.push(myValue);
@@ -1012,9 +1012,18 @@
             //Inject the values
             for (var i = 0; i < myValues.length; i++)
             {
+               var myDisplayValue = myValues[i];
+
+               // Swallow HTML tags before displaying the value in the picklist.
+               // This allows the content of cells to be HTML formatted while still 
+               // giving a clear selection.
+               if (typeof myDisplayValue === 'string' && myDisplayValue.match(".*<.*>.*")) {
+                  myDisplayValue = $("<span>" + myDisplayValue + "</span>").text();
+               }
+
                var myOption = $("<option>")
                   .prop("value", myValues[i])
-                  .text(methods.private_renderValue(myValues[i], aColumn));
+                  .text(methods.private_renderValue(myDisplayValue, aColumn));
                
                mySelect.append(myOption);
             }
