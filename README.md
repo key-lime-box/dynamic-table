@@ -60,7 +60,7 @@ Available options are:
    row, that allows the selection of multiple rows. Only works when the counter
    column is also visible.
  * `rowHeight` (default: `35`): The height of rows in pixels.
-
+ * `settingsHandler` (default: `$.fn.dynamicTable.defaultSettingsHandler`): The handler for persisting user updates to the table, such as column widths. See [Saving User Settings](#saving-user-settings)
 
 ### 2) Define Columns
 
@@ -80,6 +80,7 @@ var myColumns = [{
 
 Available options are:
 
+ * `id`: An unique identifier used when persisting user changes to the column such as column width.
  * `name`: The name of the column.
  * `type` (default: `"string"`) : The datatype of the columns. Options are: `string`, `date`, `number`
    and `boolean`.
@@ -216,4 +217,42 @@ var myEditor = $("<div/>").dynamicTableEditor({
 });
 ```
 
- 
+## Saving User Settings
+
+At times users make adjustments to the table which should be persisted between pageviews and even sessions. This persistence is handled by the SettingsHandlers, which get invoked whenever a user changes the state of a column to save the data and whenever the data gets reloaded to override the defaults with the last data from the user. The basic interface is:
+
+```javascript
+{
+    // Called to persist the state of a column
+    saveColumn : function (aColumn) { },
+    // Gets passed a column and is expected to make the neccesary updates 
+    // based on what was saved previously
+    updateColumn : function (aColumn) { },
+}
+```
+
+To help you a couple of defaulty implementations have been provided.
+
+ * `$.fn.dynamicTable.defaultSettingsHandler(aPrefix)` This handler is activated by default. It persists user modifications to the `localStorage`. For this to work best add an `id` property to each column, whcih will be used to persist the data. The prefix can be set to prefix the key used in the `localStorage` to prevent potential conflicts.
+ * `$.fn.dynamicTable.noopSettingsHandler()` This handler does nothing and can be used when user changes should not be persisted.
+ * `$.fn.dynamicTable.callbackSettingsHandler(aSaveColumn, aUpdateColumn)` An implementation which allows you to register callback. Both callbacks get passed the column to be saved. It is recommended to only save and update column attributes the user can actually change.
+
+The settings handler can be passed into the options as the `settingsHandler` property.
+
+Example usage:
+
+```javascript
+    $("#sample-grid").dynamicTable({
+        fillParent : false,
+        showCounter: true,
+        settingsHandler : $.fn.dynamicTable.callbackSettingsHandler(
+            function(aColumn) {
+                // Save data here
+                console.log(aColumn);
+            },
+            function(aColumn) {
+                // Update the column with saved data here
+                aColumn.width = 500;
+            })
+    });
+```

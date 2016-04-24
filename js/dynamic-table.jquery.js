@@ -26,12 +26,13 @@
       
          //Set default values
          var myOptions        = $.extend({
-                                    fillParent  : true,
-                                    rowHeight   : 35,
-                                    pageSize    : 50,
-                                    pageBuffer  : 1,
-                                    showCounter : false,
-                                    showCheck   : false
+                                    fillParent        : true,
+                                    rowHeight         : 35,
+                                    pageSize          : 50,
+                                    pageBuffer        : 1,
+                                    showCounter       : false,
+                                    showCheck         : false,
+                                    settingsHandler   : $.fn.dynamicTable.defaultSettingsHandler()
                               }, aOptions);
    
          //Set up each object 
@@ -430,6 +431,8 @@
                      //console.log(myOtherCells);
                      
                      myOtherCells.css({width : myColumn.width - 1});
+
+                     myData.options.settingsHandler.saveColumn(myColumn);
                   }
                   
                });               
@@ -1769,6 +1772,7 @@
                for (var i = 0; i < aColumns.length; i++)
                {
                   aColumns[i]    = $.extend({width:100, filterType: "list"}, aColumns[i]);
+                  myOptions.settingsHandler.updateColumn(aColumns[i]);
                }
                
                myOptions.columns = aColumns;
@@ -1858,7 +1862,7 @@
       /**=================================================================================
        * Generates a static version of the Grid to an div and sends the command to
        * print that div. Hides the rest of the page.
-       *================================================================================*/           
+       *================================================================================*/
       print : function () {
          var myComponent         = $(this);
          var myData              = myComponent.data("dynamicTable");
@@ -1943,8 +1947,8 @@
    
    /**====================================================================================
     * The plugin method that gets added to the jQuery method object.
-    *===================================================================================*/         
-   $.fn.dynamicTable       = function(aMethod) {
+    *===================================================================================*/
+   $.fn.dynamicTable = function(aMethod) {
       
       if ( methods[aMethod] && typeof aMethod === "string" && aMethod.indexOf("private_") == -1) 
       {
@@ -1958,6 +1962,119 @@
       {
          $.error( 'Method ' +  aMethod + ' does not exist on jQuery.dynamicTable' );
       }    
-
    };
+
+   /**====================================================================================
+    * Below are settings handlers which processe changes to setting such as column width 
+    * and column visibility and allow them to be stored for the next time the user returns
+    *===================================================================================*/
+
+   /**====================================================================================
+    * The default handler is a crude implementation using the local storage.
+    *
+    * @param {String} aPrefix
+    *    The prefix to be used in from of the ID of the column, this is to avoid 
+    *    collisions when using the localStorage.
+    * @returns {DefaultSettingsHandler}
+    *    Returns a new instance of a default settings handler.
+    *===================================================================================*/
+   $.fn.dynamicTable.defaultSettingsHandler = function(aPrefix) {
+
+      var DefaultSettingsHandler = function(aPrefix) {
+
+         var prefix = aPrefix || "dynamic-table.";
+         var cache = {};
+
+         function _extractId(aColumn) {
+            var myId = (aColumn.id || aColumn.field || aColumn.name);
+
+            if (myId) {
+               return aPrefix + myId;
+            }
+         }
+
+         this.saveColumn = function (aColumn) {
+            if (!window.localStorage) {
+               return;
+            }
+
+            var myId = _extractId(aColumn);
+
+            if (!myId) {
+               return;
+            }
+
+            var mySettings = {
+               width : aColumn.width
+            };
+
+            cache[myId] = mySettings;
+            window.localStorage.setItem(myId, JSON.stringify(mySettings));
+         }
+
+         this.updateColumn = function(aColumn) {
+            if (!window.localStorage) {
+               return;
+            }
+
+            var myId = _extractId(aColumn);
+
+            if (!myId) {
+               return;
+            }
+
+            var mySettings = cache[myId];
+
+            if (!mySettings) {
+               var mySettingsString = window.localStorage.getItem(myId);
+               
+               if (mySettingsString) {
+                  mySettings = JSON.parse(mySettingsString);
+               }
+            }
+
+            if (mySettings) {
+               aColumn.width = mySettings.width;
+            }
+         };
+      };
+
+      return new DefaultSettingsHandler(aPrefix);
+   };
+
+   /**====================================================================================
+    * This settings handler does nothing when settings are required.
+    *
+    * @returns {Object}
+    *    Returns an object which has the correct interface, but does nothing.
+    *===================================================================================*/
+   $.fn.dynamicTable.noopSettingsHandler = function() {
+      return {
+         saveColumn : function() {},
+         updateColumn : function() {}
+      }
+   }
+
+   /**====================================================================================
+    * This settings handler is a wrapper which can be used to supply custom callbacks to
+    * handle the setting yourself.
+    *
+    * @param {Function} aSaveColumn
+    *    The callback to be called whenever a column is to be saved. The function takes
+    *    one argument which is the column object.
+    * @param {Function} aUpdateColumn
+    *    The callback to be called whenever column data is to be updated from storage.The 
+    *    function takes one argument which is the column object.
+    * @returns {CallbackSettingsHandler}
+    *    A new instance of a handler with your callbacks attached.
+    *===================================================================================*/
+   $.fn.dynamicTable.callbackSettingsHandler = function(aSaveColumn, aUpdateColumn) {
+      var CallbackSettingsHandler = function(aSaveColumn, aUpdateColumn) {
+         this.saveColumn   = aSaveColumn   || function() {};
+         this.updateColumn = aUpdateColumn || function() {};
+      };
+
+      return new CallbackSettingsHandler(aSaveColumn, aUpdateColumn);
+   }
+
 })(jQuery);
