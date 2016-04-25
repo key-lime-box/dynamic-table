@@ -32,6 +32,7 @@
                                     pageBuffer        : 1,
                                     showCounter       : false,
                                     showCheck         : false,
+                                    changeColumns     : false,
                                     settingsHandler   : $.fn.dynamicTable.defaultSettingsHandler()
                               }, aOptions);
    
@@ -273,7 +274,7 @@
                   "      class=\"ui-dynamic-table-header-cell counter-header\" " +
                   "      style=\"height:" + (aRowHeight) + "px;width:" + (myWidth + 1) + "px; line-height:" + (aRowHeight) + "px\"" +
                   "   >&nbsp;</div>" + 
-                  "</td>"                  
+                  "</td>"
             );
          }
          
@@ -285,12 +286,12 @@
             {
                var myWidth             = aColumns[i].width;
                
-               //If this is the last column add 17 pixels to make up for the fact that
-               //we don't have a vertical scroll bar, but the main row container does.
-               if (i == aColumns.length - 1)
-               {
-                   myWidth            += 17;
-               }
+               // //If this is the last column add 17 pixels to make up for the fact that
+               // //we don't have a vertical scroll bar, but the main row container does.
+               // if (i == aColumns.length - 1)
+               // {
+               //     myWidth            += 17;
+               // }
                
                //Add the cell.
                var myCell = $(
@@ -442,11 +443,45 @@
             }
          }
          
+         // Append settings
+         if (myOptions.changeColumns) {
+            var mySettingsCell = $(
+               "<td>" +
+               "   <div" +
+               "      id=\"ui-dynamic-table-header-cell-" + i + "\" " +
+               "      class=\"ui-dynamic-table-header-cell settings-header\" " +
+               "      style=\"height:" + (aRowHeight) + "px;width:17px; line-height:" + (aRowHeight) + "px\"" +
+               "   ><a href=\"javascript:void(0)\" class=\"ui-dynamic-table-header-settings\">+/-</a></div>" + 
+               "</td>"
+            ).appendTo(myRow);
+
+            var mySettingsLink = mySettingsCell.find(".ui-dynamic-table-header-settings");
+
+            mySettingsLink.on("click.dynamicTable", function(aEvent) {
+               methods.private_showSettings(mySettingsCell, aContainer);
+               return false;
+            });
+         }
+         else {
+            $(
+               "<td>" +
+               "   <div" +
+               "      id=\"ui-dynamic-table-header-cell-" + i + "\" " +
+               "      class=\"ui-dynamic-table-header-cell settings-header\" " +
+               "      style=\"height:" + (aRowHeight) + "px;width:17px; line-height:" + (aRowHeight) + "px\"" +
+               "   >&nbsp;</div>" + 
+               "</td>"
+            ).appendTo(myRow);
+         }
+
          //Add the table.
          myHeaderContainer.append(myTable);
          
          //Insert the header as the first child.
          aContainer.prepend(myHeaderContainer);
+
+         var myTableContainer =  aContainer.children(".ui-dynamic-table-private-row-container").first();
+         myHeaderContainer.scrollLeft(myTableContainer.scrollLeft());
       },
 
       /**=================================================================================
@@ -1231,7 +1266,7 @@
          //Display the pop-up.
          myPopUp.css("display", "block");
          //Place it at the bottom of the cell where the filter was invoked on.
-         myPopUp.offset({left: aCell.offset().left, top: aCell.offset().top + aCell.height() - 1});
+         methods.private_positionPopUp(myPopUp, aComponent, aCell);
       },
       
       /**=================================================================================
@@ -1251,16 +1286,31 @@
             
             //Add an event listener that prevents click event from bubbling up
             myPopUp.on("click.dynamicTable", function(aEvent){
-               return false;
+               aEvent.stopPropagation();
             });
-         }      
+         }
          
          return myPopUp;
+      },
+
+      /**=================================================================================
+       * Places a pop-up just below the cell that invoked it but confines it to the grid.
+       *================================================================================*/
+      private_positionPopUp : function (aPopUp, aComponent, aCell) {
+
+         var myTop = aCell.offset().top + aCell.height() - 1;
+         var myLeft = aCell.offset().left;
+
+         if (myLeft  + aPopUp.width() > aComponent.width()) {
+            myLeft = aComponent.width() - aPopUp.width();
+         }
+
+         aPopUp.offset({left: myLeft, top: myTop});
       },
       
       /**=================================================================================
        * Called to hide a filter
-       *================================================================================*/        
+       *================================================================================*/
       private_hideFilter: function(aEvent, aComponent)
       {
          //console.log("Any click");
@@ -1422,6 +1472,67 @@
          {
             aData.options.listChange(aData.data);
          }
+      },
+
+      /**=================================================================================
+       * Called when a cell gets clicked to dispatch the data and activate the editor
+       * if needed.
+       *================================================================================*/ 
+      private_showSettings : function(aCell, aComponent) {
+
+         methods.private_hideFilter(null, aComponent);
+
+         var myData     = aComponent.data("dynamicTable");
+         var myColumns  = myData.options.columns;
+
+         var myHtml = 
+            "<div class=\"ui-dynamic-table-filter ui-dynamic-table-settings\">" + 
+            "  <ul>";
+
+         myColumns.forEach(function(aColumn, aIndex) {
+            myHtml +=
+               "<li>" + 
+               "  <label>" + 
+               "     <input type=\"checkbox\" class=\"ui-dynamic-table-settings-column\" data-index=\"" + aIndex + "\"" + (aColumn.visible ? " checked" : "") + ">" + 
+               aColumn.name + 
+               "  </label>" + 
+               "</li>";
+         })
+
+         myHtml +=
+            "  </ul>" + 
+            "</div>";
+
+         var myPopUp = methods.private_getPopUp(
+            aComponent,
+            ".ui-dynamic-table-settings", 
+            myHtml
+         );
+
+         myPopUp.find(".ui-dynamic-table-settings-column")
+            .off("change.dynamicTable")
+            .on("change.dynamicTable", function(aEvent) {
+               var myCheck       = $(this);
+               var myIndex       = myCheck.data("index");
+               var myIsChecked   = myCheck.is(":checked");
+
+               myColumns[myIndex].visible = myIsChecked;
+               
+               myData.options.settingsHandler.saveColumn(myColumns[myIndex]);
+
+               methods.private_renderHeader        (aComponent, myData.options.columns, myData.options.rowHeight);
+
+               //Render placeholders
+               methods.private_renderPlaceHolders  (aComponent, myData.options.rowHeight, myData.options.pageSize, myData.data.length);
+               
+               //Render the visible parts of the table 
+               methods.private_renderVisible       (aComponent);
+            });
+
+         //Display the pop-up. 
+         myPopUp.css("display", "block");
+         //Place it at the bottom of the cell where the filter was invoked on.
+         methods.private_positionPopUp(myPopUp, aComponent, aCell);
       },
       
       /**=================================================================================
@@ -2005,7 +2116,8 @@
             }
 
             var mySettings = {
-               width : aColumn.width
+               width : aColumn.width,
+               visible : aColumn.visible
             };
 
             cache[myId] = mySettings;
@@ -2035,6 +2147,7 @@
 
             if (mySettings) {
                aColumn.width = mySettings.width;
+               aColumn.visible = mySettings.visible;
             }
          };
       };

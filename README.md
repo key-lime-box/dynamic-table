@@ -59,6 +59,7 @@ Available options are:
  * `showCheck` (default: `false`): Displays a checkmark at the beginning of the 
    row, that allows the selection of multiple rows. Only works when the counter
    column is also visible.
+ * `changeColumns` (default: `false`): If activates an icon shows at the end of the column headers, which allows the user to change the visibility of columns.
  * `rowHeight` (default: `35`): The height of rows in pixels.
  * `settingsHandler` (default: `$.fn.dynamicTable.defaultSettingsHandler`): The handler for persisting user updates to the table, such as column widths. See [Saving User Settings](#saving-user-settings)
 
@@ -231,7 +232,7 @@ At times users make adjustments to the table which should be persisted between p
 }
 ```
 
-To help you a couple of defaulty implementations have been provided.
+To help you a couple of default implementations have been provided.
 
  * `$.fn.dynamicTable.defaultSettingsHandler(aPrefix)` This handler is activated by default. It persists user modifications to the `localStorage`. For this to work best add an `id` property to each column, whcih will be used to persist the data. The prefix can be set to prefix the key used in the `localStorage` to prevent potential conflicts.
  * `$.fn.dynamicTable.noopSettingsHandler()` This handler does nothing and can be used when user changes should not be persisted.
@@ -239,7 +240,7 @@ To help you a couple of defaulty implementations have been provided.
 
 The settings handler can be passed into the options as the `settingsHandler` property.
 
-Example usage:
+### Example usage:
 
 ```javascript
     $("#sample-grid").dynamicTable({

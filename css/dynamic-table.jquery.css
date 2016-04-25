@@ -47,6 +47,16 @@
    border-right: 1px solid #cccccc;
 }
 
+.ui-dynamic-table-header-cell.settings-header {
+   width: 17px;
+   padding-left: 1px;
+}
+
+.ui-dynamic-table-header-cell.settings-header a {
+   text-decoration: none;
+   color: #666666;
+}
+
 .ui-dynamic-table-header-cell.ui-dynamic-table-filtered,
 .ui-dynamic-table-header-cell.ui-dynamic-table-sorted {
    background-color: #cccccc;  
@@ -176,6 +186,17 @@ select.ui-dynamic-table-filter-list-select {
    width: 200px;
    height: 300px;
    border: none;
+}
+
+.ui-dynamic-table-settings ul {
+   list-style: none;
+   margin: 1px;
+   padding: 5px;
+   background-color: #ffffff;
+   display: block;
+   width: 200px;
+   max-height: 300px;
+   overflow: auto;
 }
 
 .ui-dynamic-table-print {
