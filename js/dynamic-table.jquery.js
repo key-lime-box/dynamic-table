@@ -630,8 +630,8 @@
                      if (myOptions.showCheck)
                      {
                         myHtml+= "      <div style=\"float:left\">" +
-                        		   "         <input type=\"checkbox\" id=\"ui-dynamic-table-row-check-" + r + "\" class=\"ui-dynamic-table-row-check\"/>" +
-                        		   "      </div>"; 
+                                 "         <input type=\"checkbox\" id=\"ui-dynamic-table-row-check-" + r + "\" class=\"ui-dynamic-table-row-check\"/>" +
+                                 "      </div>"; 
                      }
                      
                      myHtml   += (r + 1) +  
@@ -1493,7 +1493,7 @@
             myHtml +=
                "<li>" + 
                "  <label>" + 
-               "     <input type=\"checkbox\" class=\"ui-dynamic-table-settings-column\" data-index=\"" + aIndex + "\"" + (aColumn.visible ? " checked" : "") + ">" + 
+               "     <input type=\"checkbox\" class=\"ui-dynamic-table-settings-column\" data-index=\"" + aIndex + "\"" + (aColumn.visible ? " checked" : "") + "> " + 
                aColumn.name + 
                "  </label>" + 
                "</li>";
@@ -2100,7 +2100,7 @@
             var myId = (aColumn.id || aColumn.field || aColumn.name);
 
             if (myId) {
-               return aPrefix + myId;
+               return prefix + myId;
             }
          }
 
@@ -2121,7 +2121,13 @@
             };
 
             cache[myId] = mySettings;
-            window.localStorage.setItem(myId, JSON.stringify(mySettings));
+            
+            try {
+               window.localStorage.setItem(myId, JSON.stringify(mySettings));
+            }
+            catch (aError) {
+               console.log(aError);
+            }
          }
 
          this.updateColumn = function(aColumn) {
@@ -2138,10 +2144,18 @@
             var mySettings = cache[myId];
 
             if (!mySettings) {
-               var mySettingsString = window.localStorage.getItem(myId);
+               var mySettingsString = null;
+               
+               try {
+                  mySettingsString = window.localStorage.getItem(myId);
+               }
+               catch(aError) {
+                  console.log(aError);
+               }
                
                if (mySettingsString) {
                   mySettings = JSON.parse(mySettingsString);
+                  cache[myId] = mySettings;
                }
             }
 
