@@ -735,7 +735,7 @@
             //And if this is a decimal, format it.
             if (aColumn.format === "default-decimal")
             {
-               return "$" + methods.private_renderDecimal(aValue.toFixed(2));
+               return methods.private_renderDecimal(aValue.toFixed(2));
             }
             else if (aColumn.format === "time")
             {
