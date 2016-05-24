@@ -1183,19 +1183,26 @@
                aComponent,
                ".ui-dynamic-table-filter-date-range", 
                "<div class=\"ui-dynamic-table-filter ui-dynamic-table-filter-date-range\"> " +
-               "   <div> " +
-               "      <div style=\"padding-top: 3px; color: #ffffff; font-weight: bold\">Start Date (<a class=\"ui-dynamic-table-filter-date-range-start-clear\" href=\"javascript:void(0)\">Clear</a>):</div> " +
-               "      <div class=\"ui-dynamic-table-filter-date-range-start\"></div> " +
-               "   </div> " +
-               "   <div> " +
-               "      <div style=\"padding-top: 3px; color: #ffffff; font-weight: bold\">End Date (<a class=\"ui-dynamic-table-filter-date-range-end-clear\" href=\"javascript:void(0)\">Clear</a>):</div> " +
-               "      <div class=\"ui-dynamic-table-filter-date-range-end\"></div> " +
+               "   <div class=\"ui-dynamic-table-filter-date-range-blanks-box\">" +
+               "      <input type=\"radio\" class=\"ui-dynamic-table-filter-date-range-blanks\" name=\"date-range-blanks\" value=\"all\"> All" +
+               "      <input type=\"radio\" class=\"ui-dynamic-table-filter-date-range-blanks\" name=\"date-range-blanks\" value=\"blanks\"> Blanks" +
+               "      <input type=\"radio\" class=\"ui-dynamic-table-filter-date-range-blanks\" name=\"date-range-blanks\" value=\"non-blanks\"> Non-Blanks" +
+               "   </div>" +
+               "   <div class=\"ui-dynamic-table-filter-date-range-box\">" +
+               "      <div> " +
+               "         <div style=\"padding-top: 3px; color: #ffffff; font-weight: bold\">Start Date (<a class=\"ui-dynamic-table-filter-date-range-start-clear\" href=\"javascript:void(0)\">Clear</a>):</div> " +
+               "         <div class=\"ui-dynamic-table-filter-date-range-start\"></div> " +
+               "      </div> " +
+               "      <div> " +
+               "         <div style=\"padding-top: 3px; color: #ffffff; font-weight: bold\">End Date (<a class=\"ui-dynamic-table-filter-date-range-end-clear\" href=\"javascript:void(0)\">Clear</a>):</div> " +
+               "         <div class=\"ui-dynamic-table-filter-date-range-end\"></div> " +
+               "      </div> " +
                "   </div> " +
                "</div>"
             );         
             
             //Get the date selects
-            var mySelects           = myPopUp.find(".ui-dynamic-table-filter-date-range-start, .ui-dynamic-table-filter-date-range-end");
+            var mySelects = myPopUp.find(".ui-dynamic-table-filter-date-range-start, .ui-dynamic-table-filter-date-range-end");
             
             //Add the event handler to capture change events
             mySelects.datepicker({
@@ -1204,6 +1211,17 @@
                }
             });
             
+            // Apply the blank filter
+            var myBlanks = myPopUp.find(".ui-dynamic-table-filter-date-range-blanks")
+               .change(function() {
+
+                  myPopUp
+                     .find(".ui-dynamic-table-filter-date-range-box")
+                     .toggle(myBlanks.filter(":checked").val() == "all");
+
+                  methods.private_filterBy(aComponent, aColumn, aColumnIndex, aData);
+               });
+
             //Add the event handler to the start clear button.
             myPopUp.find(".ui-dynamic-table-filter-date-range-start-clear").on(
                   "click.dynamicTable", 
@@ -1249,6 +1267,10 @@
             //If we have a current filter set the values.
             if (myCurrentFilter != null)
             {
+               if (myCurrentFilter.type == "blanks" || myCurrentFilter.type == "non-blanks") {
+                  myBlanks.filter("[value='" + myCurrentFilter.type + "']").prop("checked", true);
+               }
+
                mySelects.filter(".ui-dynamic-table-filter-date-range-start")
                         .datepicker("setDate", myCurrentFilter.hasStart ? methods.private_parseDate(myCurrentFilter.startDate) : null);
                mySelects.filter(".ui-dynamic-table-filter-date-range-end")
@@ -1257,6 +1279,7 @@
             //Otherwise, clear them.
             else
             {
+               myBlanks.filter("[value='all']").prop("checked", true);
                mySelects.filter(".ui-dynamic-table-filter-date-range-start")
                         .datepicker("setDate", null);
                mySelects.filter(".ui-dynamic-table-filter-date-range-end")
@@ -1396,10 +1419,18 @@
              //Get the data
              var myStart            = aComponent.find(".ui-dynamic-table-filter-date-range-start").datepicker("getDate");
              var myEnd              = aComponent.find(".ui-dynamic-table-filter-date-range-end").datepicker("getDate");
+             var myBlanksOnly       = aComponent.find(".ui-dynamic-table-filter-date-range-blanks:checked").val();
              
              //If there is data, add the filter now
-             if (myStart != null || myEnd != null)
-             {
+             if (myBlanksOnly != "all") {
+                aData.activeFilters.push({
+                   field:         myField,
+                   type:          myBlanksOnly,
+                });
+
+                myColumnCell.addClass("ui-dynamic-table-filtered");
+             }
+             else if (myStart != null || myEnd != null) {
                 aData.activeFilters.push({
                    field:         myField,
                    type:          aColumn.filterType,
@@ -1445,21 +1476,24 @@
             {
                var myFilter        = aData.activeFilters[i];
                
-               if (myFilter.type == "list")
-               {
+               if (myFilter.type == "list") {
                   myInclude           = myInclude && (myFilter.values.indexOf(aItem[myFilter.field] + "") > -1 || (myFilter.includeBlanks && aItem[myFilter.field] == null));
                }
-               else if (myFilter.type == "search")
-               {
+               else if (myFilter.type == "search") {
                   myInclude           = myInclude && aItem[myFilter.field] != null && aItem[myFilter.field].toLowerCase().indexOf(myFilter.value) >= 0;
                }
-               else if (myFilter.type == "dateRange")
-               {
+               else if (myFilter.type == "dateRange") {
                   var myDate          = methods.private_parseDate(aItem[myFilter.field]);
                   
                   myInclude           = myInclude && myDate != null 
                                         && myDate.getTime() >= myFilter.startDate 
                                         && myDate.getTime() < myFilter.endDate;
+               }
+               else if (myFilter.type == "blanks") {
+                  myInclude            = myInclude && (aItem[myFilter.field] == null || aItem[myFilter.field] == '');
+               }
+               else if (myFilter.type == "non-blanks") {
+                  myInclude            = myInclude && aItem[myFilter.field] != null && aItem[myFilter.field] != '';
                }
             }
             
