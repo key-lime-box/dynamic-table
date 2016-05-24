@@ -142,6 +142,19 @@ to load it all into the table:
 $("#sample-grid").dynamicTable("data", myData, myColumns);
 ```
 
+## Methods
+
+The following are the methods available. They all are called using the `jQuery` standard:
+
+```
+$("#sample-grid").dynamicTable("[name]", [parameters...]);
+```
+
+ * `data`: Loads the data into the table. It takes two mandatory parameters:
+     - `data` The data to be displayed as described earlier
+     - `columns` The column definitions as described earier
+ * `clearAllFilters`: Clears all filters that are currently set on the grid. This method ion takes no arguments.
+
 ## Interacting with the table
 
 To allow your application to interact with the table, it dispatches two events:

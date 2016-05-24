@@ -126,6 +126,10 @@
             $("#selected-data").html("You <em>double-clicked</em> <strong>" + aEvent.row[1] + "</strong>");     
          });  
          
+         $("#clear-all-button").click(function() {
+            $("#sample-grid").dynamicTable("clearAllFilters");
+         })
+
       });
       
       </script>
@@ -171,6 +175,10 @@
    
       <div id="selected-data">&nbsp;</div>
       <div id="save-data">&nbsp;</div>
+
+      <div>
+         <button id="clear-all-button">Clear All Filters</button>
+      </div>
    
    </body>
    

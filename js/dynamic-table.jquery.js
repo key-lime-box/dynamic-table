@@ -246,7 +246,8 @@
          //Remove the existing header table.
          aContainer.children(".ui-dynamic-table-header").remove();
 
-         var myOptions                 = aContainer.data("dynamicTable").options;
+         var myData                    = aContainer.data("dynamicTable");
+         var myOptions                 = myData.options;
          
          //Add a container div.
          var myHeaderContainer         = $("<div/>");
@@ -1081,7 +1082,7 @@
                ".ui-dynamic-table-filter-search", 
                "<div class=\"ui-dynamic-table-filter ui-dynamic-table-filter-search\"> " +  
                "   <div style=\"padding: 3px; color: #ffffff; font-weight: bold\">" +
-               "      <a class=\"ui-dynamic-table-filter-search-clear\" href=\"javascript:return true\">Clear</a><br/>" +
+               "      <a class=\"ui-dynamic-table-filter-search-clear\" href=\"javascript:void(0)\">Clear</a><br/>" +
                "   </div>" + 
                "   <input " + 
                "     class=\"ui-dynamic-table-filter-search-input\" " +
@@ -1183,11 +1184,11 @@
                ".ui-dynamic-table-filter-date-range", 
                "<div class=\"ui-dynamic-table-filter ui-dynamic-table-filter-date-range\"> " +
                "   <div> " +
-               "      <div style=\"padding-top: 3px; color: #ffffff; font-weight: bold\">Start Date (<a class=\"ui-dynamic-table-filter-date-range-start-clear\" href=\"javascript:return true\">Clear</a>):</div> " +
+               "      <div style=\"padding-top: 3px; color: #ffffff; font-weight: bold\">Start Date (<a class=\"ui-dynamic-table-filter-date-range-start-clear\" href=\"javascript:void(0)\">Clear</a>):</div> " +
                "      <div class=\"ui-dynamic-table-filter-date-range-start\"></div> " +
                "   </div> " +
                "   <div> " +
-               "      <div style=\"padding-top: 3px; color: #ffffff; font-weight: bold\">End Date (<a class=\"ui-dynamic-table-filter-date-range-end-clear\" href=\"javascript:return true\">Clear</a>):</div> " +
+               "      <div style=\"padding-top: 3px; color: #ffffff; font-weight: bold\">End Date (<a class=\"ui-dynamic-table-filter-date-range-end-clear\" href=\"javascript:void(0)\">Clear</a>):</div> " +
                "      <div class=\"ui-dynamic-table-filter-date-range-end\"></div> " +
                "   </div> " +
                "</div>"
@@ -1903,7 +1904,37 @@
                myOptions.listChange(aData);
             }
             
-         });        
+         });
+      },
+      
+      /**=================================================================================
+       * Removes all filters from the dynamic table 
+       *================================================================================*/            
+      clearAllFilters : function() {
+         var myContainer      = $(this);
+         var myData           = myContainer.data("dynamicTable");
+
+         myData.activeFilters = [];
+
+         //Apply the filter
+         methods.private_applyFilter         (myData);
+         
+         //Applies the current sort again, if there is one
+         if (myData.currentSort)
+         {
+            methods.private_sortBy           (myContainer, myData.currentSort, myData, true);
+         }
+
+         //Render placeholders
+         methods.private_renderPlaceHolders  (myContainer, myData.options.rowHeight, myData.options.pageSize, myData.data.length);
+         
+         //Render the visible parts of the table 
+         methods.private_renderVisible       (myContainer);
+
+         //Remove all filtered highlights
+         myContainer
+            .find(".ui-dynamic-table-filtered")
+            .removeClass("ui-dynamic-table-filtered");
       },
       
       /**=================================================================================
