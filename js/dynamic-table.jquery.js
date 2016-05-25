@@ -603,7 +603,7 @@
                //Create a table
                myHtml                    += "<table class=\"ui-dynamic-table-page\">";
                
-               //Calculate the range of rows of this page
+               //Calculate the range of rows of this page 
                var myStartRow             = (i * myOptions.pageSize);
                var myEndRow               = Math.min(myStartRow + myOptions.pageSize - 1, myData.data.length -1);
                
@@ -689,6 +689,10 @@
                
                //console.log("Rendering Page " + i + " Complete: " + ((new Date()).getTime() - myStartTime));
             }
+
+            setTimeout(function() {
+               methods.private_highlightSelected(aComponent);
+            })
          }
          
          
@@ -1614,29 +1618,17 @@
        *================================================================================*/ 
       private_selectRow: function (aComponent, aCell, aTableLocation) {
       
-         var myData                      = aComponent.data("dynamicTable");
-         
-         //Mark the current row as selected
-         aComponent.find("tr.selected").removeClass("selected");
-         
-         var myRow                       = aCell.closest("tr");
-         myRow.addClass                  ("selected");
-         
-         //Trigger the row select event
-         aComponent.trigger({
-            type: "rowSelect", 
-            row: myData.data[aTableLocation[0]]
-         });         
-         
-         myData.location                 = aTableLocation;
-         
-         var myContainer                 = aComponent.children(".ui-dynamic-table-private-row-container");
+         var myData              = aComponent.data("dynamicTable");
+         var myRowNumber         = parseInt(aTableLocation);
 
-         var myRowBottom                 = (myContainer.scrollTop() + myRow.offset().top + myRow.height()) - myContainer.offset().top;
-         var myContainerBottom           = (myContainer.scrollTop() + myContainer.height()) - myRow.height();
-         
-         var myRowTop                    = (myContainer.scrollTop() + myRow.offset().top) - myContainer.offset().top;
-         var myContainerTop              = myContainer.scrollTop();
+         myData.location         = aTableLocation;
+
+         var myRowTop            = myRowNumber * myData.options.rowHeight;
+         var myRowBottom         = myRowTop + myData.options.rowHeight;
+
+         var myContainer         = aComponent.children(".ui-dynamic-table-private-row-container");
+         var myContainerBottom   = (myContainer.scrollTop() + myContainer.height()) - myData.options.rowHeight;
+         var myContainerTop      = myContainer.scrollTop();
          
          if (myRowBottom > myContainerBottom)
          {
@@ -1648,8 +1640,37 @@
          {
             var myDifference              = myContainerTop - myRowTop;
             
-            myContainer.scrollTop(myContainer.scrollTop() - myDifference);         
+            myContainer.scrollTop(myContainer.scrollTop() - myDifference);
          }
+
+         methods.private_highlightSelected(aComponent)
+      },
+
+      /**=================================================================================
+       * Called to do the actual highlighting of selected elements.
+       *================================================================================*/ 
+      private_highlightSelected : function(aComponent) {
+
+         var myData        = aComponent.data("dynamicTable");
+         var myLocation    = myData.location;
+
+         if (!myLocation) {
+            return;
+         }
+
+         var myCell        = aComponent.find("#ui-dynamic-table-page-cell-" + myLocation[0] + "-" + myLocation[1]);
+
+         //Mark the current row as selected
+         aComponent.find("tr.selected").removeClass("selected");
+         
+         var myRow               = myCell.closest("tr");
+         myRow.addClass          ("selected");
+         
+         //Trigger the row select event
+         aComponent.trigger({
+            type: "rowSelect", 
+            row: myData.data[myLocation[0]]
+         });
       },
 
       /**=================================================================================
@@ -1659,14 +1680,8 @@
          
          var myKey               = aEvent.which;
          
-         if (myKey != $.ui.keyCode.UP &&
-             myKey != $.ui.keyCode.DOWN)
-         {
-            return;
-         }
-         
          var myComponent         = aEvent.data.component;
-         
+            
          // If this grid does not have the focus ignore the events
          if (!myComponent.is(":focus") && myComponent.find(":focus").length == 0) {
             return;
@@ -1681,48 +1696,88 @@
          
          var myLocation          = myData.location;
          var myLocationChanged   = false;
-         
+
          if (!myLocation)
          {
             //TODO the "1" as a cell is not logical, but gives trouble if set to 0
             myLocation           = [0, 1];
          }
          
-         if (myKey == $.ui.keyCode.UP)
-         {
-            myLocation[0]        = parseInt(myLocation[0]) - 1;
-            
-            if (myLocation[0] < 0)
-            {
-               myLocation[0]     = 0;
+         // Capture basic up and down movement
+         if (myKey == $.ui.keyCode.UP ||
+             myKey == $.ui.keyCode.DOWN) {
+            if (myKey == $.ui.keyCode.UP) {
+               myLocation[0]        = parseInt(myLocation[0]) - 1;
+               
+               if (myLocation[0] < 0)
+               {
+                  myLocation[0]     = 0;
+               }
+               
+               myLocationChanged    = true;
             }
-            
-            myLocationChanged    = true;
-         }
-         else if (myKey == $.ui.keyCode.DOWN)
-         {
-            myLocation[0]        = parseInt(myLocation[0]) + 1;
-            
-            if (myLocation[0] >= myData.data.length)
-            {
-               myLocation[0]     = myData.data.length - 1;
+            else if (myKey == $.ui.keyCode.DOWN) {
+               myLocation[0]        = parseInt(myLocation[0]) + 1;
+               
+               if (myLocation[0] >= myData.data.length)
+               {
+                  myLocation[0]     = myData.data.length - 1;
+               }
+               
+               myLocationChanged    = true;
             }
-            
-            myLocationChanged    = true;
          }
-         
-         if (myLocationChanged)
-         {
-            //console.log(myLocation);
-            //console.log($("#ui-dynamic-table-page-cell-" + myLocation[0] + "-" + myLocation[1]));
-            
+         // Search by content and select first matching
+         else {
+            var myInput = String.fromCharCode(myKey);
+
+            if (myInput) {
+               if (!myData.inputBuffer) {
+                  myData.inputBuffer = new $.fn.dynamicTable.inputBuffer(1000);
+               }
+
+               myData.inputBuffer.append(myInput);
+
+               var myBuffer = myData.inputBuffer.getBuffer().toUpperCase();
+
+               var myCurrentIndex = -1;
+               var myBestIndex = 9999999999999;
+
+               for (var i = 0; i < myData.data.length; i++) {
+                  var myIndex       = (i + parseInt(myLocation[0])) % myData.data.length;
+                  var myRow         = myData.data[myIndex];
+                  var myTestString  = null;
+
+                  if (Array.isArray(myRow)) {
+                     myTestString = myRow.join(",").toUpperCase();
+                  }
+                  else {
+                     myTestString = JSON.stringify(myData.data[i]).toUpperCase();
+                  }
+
+                  var myTempIndex = myTestString.indexOf(myBuffer);
+
+                  if (myTempIndex >= 0 && myTempIndex < myBestIndex) {
+                     myCurrentIndex    = myIndex;
+                     myBestIndex       = myTempIndex;
+                  }
+               }
+
+               if (myCurrentIndex >= 0) {
+                  myLocation[0] = myCurrentIndex;
+                  myLocationChanged = true;
+               }
+
+            }
+         }
+
+         if (myLocationChanged) {
             methods.private_selectRow(
                   myComponent, 
                   $("#ui-dynamic-table-page-cell-" + myLocation[0] + "-" + myLocation[1]), 
                   myLocation
             );
          }
-         
       },
       
       /**=================================================================================
@@ -1945,30 +2000,33 @@
        * Removes all filters from the dynamic table 
        *================================================================================*/            
       clearAllFilters : function() {
-         var myContainer      = $(this);
-         var myData           = myContainer.data("dynamicTable");
+         return this.each(function() {
 
-         myData.activeFilters = [];
+            var myContainer      = $(this);
+            var myData           = myContainer.data("dynamicTable");
 
-         //Apply the filter
-         methods.private_applyFilter         (myData);
-         
-         //Applies the current sort again, if there is one
-         if (myData.currentSort)
-         {
-            methods.private_sortBy           (myContainer, myData.currentSort, myData, true);
-         }
+            myData.activeFilters = [];
 
-         //Render placeholders
-         methods.private_renderPlaceHolders  (myContainer, myData.options.rowHeight, myData.options.pageSize, myData.data.length);
-         
-         //Render the visible parts of the table 
-         methods.private_renderVisible       (myContainer);
+            //Apply the filter
+            methods.private_applyFilter         (myData);
+            
+            //Applies the current sort again, if there is one
+            if (myData.currentSort)
+            {
+               methods.private_sortBy           (myContainer, myData.currentSort, myData, true);
+            }
 
-         //Remove all filtered highlights
-         myContainer
-            .find(".ui-dynamic-table-filtered")
-            .removeClass("ui-dynamic-table-filtered");
+            //Render placeholders
+            methods.private_renderPlaceHolders  (myContainer, myData.options.rowHeight, myData.options.pageSize, myData.data.length);
+            
+            //Render the visible parts of the table 
+            methods.private_renderVisible       (myContainer);
+
+            //Remove all filtered highlights
+            myContainer
+               .find(".ui-dynamic-table-filtered")
+               .removeClass("ui-dynamic-table-filtered");
+         })
       },
       
       /**=================================================================================
@@ -2267,6 +2325,34 @@
       };
 
       return new CallbackSettingsHandler(aSaveColumn, aUpdateColumn);
+   }
+
+   /**====================================================================================
+    * This class/function allows the buffering of an input string until a certain time 
+    * of inactivity is reached. At that point the buffer gets cleared.
+    *
+    * @param {Number} aTimeout
+    *    The timeout in milliseconds after which the buffer clears
+    *===================================================================================*/
+   $.fn.dynamicTable.inputBuffer = function(aTimeout) {
+
+      var buffer = "";
+      var timeout = null;
+
+      this.append = function(aString) {
+         if (timeout) {
+            clearTimeout(timeout)
+         }
+
+         buffer   += aString;
+         timeout  = setTimeout(function() {
+            buffer = "";
+         }, aTimeout);
+      }
+
+      this.getBuffer = function() {
+         return buffer;
+      }
    }
 
 })(jQuery);
