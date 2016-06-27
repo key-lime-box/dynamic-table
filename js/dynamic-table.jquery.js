@@ -1644,6 +1644,12 @@
          }
 
          methods.private_highlightSelected(aComponent)
+
+         //Trigger the row select event
+         aComponent.trigger({
+            type: "rowSelect", 
+            row: myData.data[myData.location[0]]
+         });
       },
 
       /**=================================================================================
@@ -1666,11 +1672,6 @@
          var myRow               = myCell.closest("tr");
          myRow.addClass          ("selected");
          
-         //Trigger the row select event
-         aComponent.trigger({
-            type: "rowSelect", 
-            row: myData.data[myLocation[0]]
-         });
       },
 
       /**=================================================================================
