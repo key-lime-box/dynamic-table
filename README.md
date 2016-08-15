@@ -153,6 +153,7 @@ $("#sample-grid").dynamicTable("[name]", [parameters...]);
  * `data`: Loads the data into the table. It takes two mandatory parameters:
      - `data` The data to be displayed as described earlier
      - `columns` The column definitions as described earier
+     - `keepFilters` (optional) Whether or not the filters should be kept or reset. Defaults to `false`.
  * `clearAllFilters`: Clears all filters that are currently set on the grid. This method ion takes no arguments.
 
 ## Interacting with the table

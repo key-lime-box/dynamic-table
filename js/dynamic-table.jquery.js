@@ -1950,9 +1950,9 @@
       /**=================================================================================
        * Sets the data and column definitions for the table
        *================================================================================*/   
-      data: function (aData, aColumns){
+      data: function (aData, aColumns, aKeepFilters){
          return this.each(function() {
-            
+
             //Get the actual data
             var myData           = $(this).data("dynamicTable");
             
@@ -1963,11 +1963,13 @@
             //Reset the checked rows
             myData.checkedRows   = [];
             //Reset any ongoing filters
-            myData.activeFilters = [];
+            if (!myData.activeFilters || !aKeepFilters) {
+               myData.activeFilters = [];
+            }
             
             //Get the options
             var myOptions        = myData.options;
-            
+
             //Default the columns if they where specified.
             if (aColumns)
             {
@@ -1979,7 +1981,10 @@
                
                myOptions.columns = aColumns;
             }
-            
+
+            // Apply existing filters
+            methods.private_applyFilter         (myData);
+
             //Render the header
             methods.private_renderHeader        ($(this), myOptions.columns, myOptions.rowHeight);
             
