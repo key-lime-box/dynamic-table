@@ -1019,17 +1019,8 @@
             //Add one with the new context.
             mySelect.on (
                   "change.dynamicTable", 
-                  {component:    aComponent,
-                   column:       aColumn,
-                   columnIndex:  aColumnIndex,
-                   data:         aData}, 
                   function(aEvent) {
-                     methods.private_filterBy(
-                        aEvent.data.component, 
-                        aEvent.data.column, 
-                        aEvent.data.columnIndex, 
-                        aEvent.data.data
-                     );
+                     methods.private_filterBy(aComponent, aColumn, aColumnIndex, aData, aCell);
                   });
             
             //Make an array of distinct values.
@@ -1103,21 +1094,17 @@
             //Register a new event
             myInput.on (
                   "keyup.dynamicTable", 
-                  {component:    aComponent,
-                   column:       aColumn,
-                   columnIndex:  aColumnIndex,
-                   data:         aData}, 
                   function(aEvent) {
                      
                      if ($.ui.keyCode.ENTER == aEvent.which)
                      {
-                        methods.private_hideFilter(aEvent, aEvent.data.component);
+                        methods.private_hideFilter(aEvent, aComponent);
                         return;
                      }
                       
                      //console.log("Key Up");
                      //Get the data
-                     var myData        = aEvent.data;
+                     var myData        = aData;
                      
                      //If there is currently a time-out, reset it
                      if (myData.searchTimeout != null) 
@@ -1130,12 +1117,7 @@
                         
                         //console.log("Searching by string");
                         
-                        methods.private_filterBy(
-                           aEvent.data.component, 
-                           aEvent.data.column, 
-                           aEvent.data.columnIndex, 
-                           aEvent.data.data
-                        );                        
+                        methods.private_filterBy(aComponent, aColumn, aColumnIndex, aData, aCell);                        
                      }, 150);
                   });       
          
@@ -1143,22 +1125,13 @@
             
             myClear.on (
                   "click.dynamicTable", 
-                  {component:    aComponent,
-                   column:       aColumn,
-                   columnIndex:  aColumnIndex,
-                   data:         aData}, 
                   function(aEvent) {
                   
                      myInput.val("");
                            
-                     methods.private_filterBy(
-                              aEvent.data.component, 
-                              aEvent.data.column, 
-                              aEvent.data.columnIndex, 
-                              aEvent.data.data
-                           );                        
+                     methods.private_filterBy(aComponent, aColumn, aColumnIndex, aData, aCell);                        
    
-                     methods.private_hideFilter(aEvent, aEvent.data.component);
+                     methods.private_hideFilter(aEvent, aComponent);
                   
                   });                   
             
@@ -1211,7 +1184,7 @@
             //Add the event handler to capture change events
             mySelects.datepicker({
                onSelect : function () {
-                  methods.private_filterBy(aComponent, aColumn, aColumnIndex, aData);
+                  methods.private_filterBy(aComponent, aColumn, aColumnIndex, aData, aCell);
                }
             });
             
@@ -1223,48 +1196,30 @@
                      .find(".ui-dynamic-table-filter-date-range-box")
                      .toggle(myBlanks.filter(":checked").val() == "all");
 
-                  methods.private_filterBy(aComponent, aColumn, aColumnIndex, aData);
+                  methods.private_filterBy(aComponent, aColumn, aColumnIndex, aData, aCell);
                });
 
             //Add the event handler to the start clear button.
             myPopUp.find(".ui-dynamic-table-filter-date-range-start-clear").on(
                   "click.dynamicTable", 
-                  {component:    aComponent,
-                   column:       aColumn,
-                   columnIndex:  aColumnIndex,
-                   data:         aData}, 
                   function(aEvent) {
                   
                       mySelects.filter(".ui-dynamic-table-filter-date-range-start")
                                .datepicker("setDate", null);
                       
-                     methods.private_filterBy(
-                         aEvent.data.component, 
-                         aEvent.data.column, 
-                         aEvent.data.columnIndex, 
-                         aEvent.data.data
-                     );                            
+                     methods.private_filterBy(aComponent, aColumn, aColumnIndex, aData, aCell);
                   }
             );
             
             //Add the event handler to the end clear button.
             myPopUp.find(".ui-dynamic-table-filter-date-range-end-clear").on(
                   "click.dynamicTable", 
-                  {component:    aComponent,
-                   column:       aColumn,
-                   columnIndex:  aColumnIndex,
-                   data:         aData}, 
                   function(aEvent) {
                      
                      mySelects.filter(".ui-dynamic-table-filter-date-range-end")
                      .datepicker("setDate", null);
                      
-                     methods.private_filterBy(
-                           aEvent.data.component, 
-                           aEvent.data.column, 
-                           aEvent.data.columnIndex, 
-                           aEvent.data.data
-                     );                            
+                     methods.private_filterBy(aComponent, aColumn, aColumnIndex, aData, aCell);
                   }
             );
            
@@ -1360,7 +1315,7 @@
       /**=================================================================================
        * Adds a specific filter to the chain of filters.
        *================================================================================*/        
-      private_filterBy: function(aComponent, aColumn, aColumnIndex, aData) {
+      private_filterBy: function(aComponent, aColumn, aColumnIndex, aData, aCell) {
          
          var myField = aColumn.field || aColumnIndex;
 
@@ -1462,6 +1417,11 @@
          
          //Render the visible parts of the table 
          methods.private_renderVisible       (aComponent);
+
+         //Re-render the filter list filter
+         if (aColumn.filterType == "list" && mySelect.val().indexOf("-show-all") >= 0) {
+            methods.private_showFilter       (aComponent, aColumn, aColumnIndex, aData, aCell)
+         }
       },
       
       /**=================================================================================
