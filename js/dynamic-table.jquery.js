@@ -766,7 +766,7 @@
             }
             
             // Is moment.js loaded?
-            if (moment) {
+            if (window.moment) {
                
                myFormat          = myFormat || "DD-MMM-YYYY";
                

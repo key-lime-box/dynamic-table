@@ -23,7 +23,7 @@ application.
 
  * jQuery
  * jQuery UI
- * moment.js (if you are planning on displaying dates)
+ * moment.js - This is optional, to allow nicer rendering of dates. However, you have to make sure it is available in the global scope. 
  
 If you are using Bootstrap the JQuery-Bootstrap project is recommended to make 
 the components look more like Bootstrap.
