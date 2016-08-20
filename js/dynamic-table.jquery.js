@@ -1266,12 +1266,18 @@
             myPopUp = $(aHtml);
             
             aComponent.append(myPopUp);
-            
-            //Add an event listener that prevents click event from bubbling up
-            myPopUp.on("click.dynamicTable", function(aEvent){
-               aEvent.stopPropagation();
-            });
          }
+         else
+         {
+            // Remove all existing event handlers as these get resubscribed later on
+            // with new context. We just want to return the raw component.
+            myPopUp.find("*").off();
+         }
+
+         //Add an event listener that prevents click event from bubbling up
+         myPopUp.on("click.dynamicTable", function(aEvent){
+            aEvent.stopPropagation();
+         });
          
          return myPopUp;
       },
