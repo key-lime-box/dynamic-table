@@ -1292,8 +1292,10 @@
          var myTop = aCell.offset().top + aCell.height() - 1;
          var myLeft = aCell.offset().left;
 
-         if (myLeft  + aPopUp.width() > aComponent.width()) {
-            myLeft = aComponent.width() - aPopUp.width();
+         var myMaxRight = aComponent.width() + aComponent.offset().left;
+
+         if (myLeft  + aPopUp.width() > myMaxRight) {
+            myLeft = myMaxRight - aPopUp.width();
          }
 
          aPopUp.offset({left: myLeft, top: myTop});
