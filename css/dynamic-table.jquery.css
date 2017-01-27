@@ -5,6 +5,10 @@
    background-color: #ffffff;
 }   
 
+.ui-dynamic-table table {
+   width: auto;
+}
+
 .ui-dynamic-table * {
    -webkit-touch-callout: none;
    -webkit-user-select: none;
