@@ -116,16 +116,16 @@
                // which is the MDN recommended way of doing this.
                var myParent      = aContainer.parent(); 
                var myParentRect  = {
-                     width    : myParent.innerWidth(),
-                     height   : myParent.innerHeight()
+                  width    : myParent.innerWidth(),
+                  height   : myParent.innerHeight()
                }
                
                var myObserver = new MutationObserver(function(aMutations) {
                   
                   if (myParentRect.width != myParent.innerWidth() || myParentRect.height != myParent.innerHeight()) {
                      myParentRect  = {
-                           width    : myParent.innerWidth(),
-                           height   : myParent.innerHeight()
+                        width    : myParent.innerWidth(),
+                        height   : myParent.innerHeight()
                      }
                      
                      methods.private_handleResize({
@@ -152,6 +152,8 @@
          }
          
          checkAddedToDom();
+
+         $(window).on ("resize", {component : aContainer}, this.private_handleResize);
       },
       
       /**=================================================================================
@@ -1290,8 +1292,10 @@
          var myTop = aCell.offset().top + aCell.height() - 1;
          var myLeft = aCell.offset().left;
 
-         if (myLeft  + aPopUp.width() > aComponent.width()) {
-            myLeft = aComponent.width() - aPopUp.width();
+         var myMaxRight = aComponent.width() + aComponent.offset().left;
+
+         if (myLeft  + aPopUp.width() > myMaxRight) {
+            myLeft = myMaxRight - aPopUp.width();
          }
 
          aPopUp.offset({left: myLeft, top: myTop});
