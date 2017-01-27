@@ -3,6 +3,7 @@
 .ui-dynamic-table {
    cursor: default;
    background-color: #ffffff;
+   border: 1px solid #cccccc;
 }   
 
 .ui-dynamic-table table {
@@ -37,7 +38,7 @@
 .ui-dynamic-table-header-cell {
    /*border-left: 1px solid #cccccc;*/
    border-bottom: 1px solid #cccccc;
-   border-top: 1px solid #cccccc;
+   /*border-top: 1px solid #cccccc;*/
    overflow: hidden;
    white-space: nowrap;
    padding: 0px 6px 0px 5px;
@@ -174,6 +175,10 @@
    overflow: hidden;
    white-space: nowrap;
    padding: 0px 5px;
+}
+
+td:first-child .ui-dynamic-table-page-cell {
+   border-left: none;
 }
 
 .ui-dynamic-table-filter {
