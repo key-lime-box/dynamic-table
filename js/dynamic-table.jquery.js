@@ -329,11 +329,13 @@
                         
                         //Get the basic variables
                         var myComponent         = aEvent.data.component;
-                        var myColumn            = aEvent.data.column;
                         var mySort              = aEvent.data.sort;
                         var myData              = myComponent.data("dynamicTable");
                         var myOptions           = myData.options;
                         
+                        var myColumn            = aEvent.data.column;
+                        myColumn                = myOptions.columns[myColumn].field || myColumn;
+
                         //Sort the dataset
                         methods.private_sortBy(myComponent, myColumn, myData);
                         
