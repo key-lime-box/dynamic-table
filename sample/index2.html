@@ -25,7 +25,11 @@
          $("#sample-grid").dynamicTable({
             fillParent : false,
             showCounter: true,
-            changeColumns: true
+            changeColumns: true,
+            listChange : function() {
+               var myCounts = $("#sample-grid").dynamicTable("counts");
+               $("#counts").text("Total: " + myCounts.total + " Filtered: " + myCounts.filtered);
+            },
          });
          
          // Define columns
@@ -158,6 +162,7 @@
             height: 500px;
          }
       
+         #counts,
          #selected-data,
          #save-data {
             width: 700px; 
@@ -182,8 +187,11 @@
       
       </div>      
    
+      <div id="counts">&nbsp;</div>
+
       <div id="selected-data">&nbsp;</div>
       <div id="save-data">&nbsp;</div>
+
    
    </body>
    

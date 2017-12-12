@@ -154,7 +154,11 @@ $("#sample-grid").dynamicTable("[name]", [parameters...]);
      - `data` The data to be displayed as described earlier
      - `columns` The column definitions as described earier
      - `keepFilters` (optional) Whether or not the filters should be kept or reset. Defaults to `false`.
- * `clearAllFilters`: Clears all filters that are currently set on the grid. This method ion takes no arguments.
+ * `clearAllFilters`: Clears all filters that are currently set on the grid. This method takes no arguments.
+ * `counts`: Returns an object with basic counts of the data in the table. The following are
+   the returned attributes:
+     - `total` All records loaded into the table
+     - `filtered` The amount of records currently visible based on the selected filter
 
 ## Interacting with the table
 

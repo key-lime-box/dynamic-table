@@ -2056,9 +2056,21 @@
        * Returns all rows that have been checked.
        *================================================================================*/ 
       checkedRows : function () {
-         
          var myData           = this.first().data("dynamicTable");
          return (myData.checkedRows != null ? myData.checkedRows : []);
+      },
+
+      /**=================================================================================
+       * Returns an object that contains the basic counts of the table
+       *================================================================================*/ 
+      counts : function () {
+         var myData           = this.first().data("dynamicTable");
+         var myRows           = myData.data;
+         var myOriginalRows   = myData.originalData;
+         return {
+            total: myOriginalRows.length,
+            filtered: myRows.length
+         };
       },
 
       /**=================================================================================
