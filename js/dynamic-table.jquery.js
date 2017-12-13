@@ -1555,11 +1555,18 @@
          var myComponent                 = aEvent.data.component;
          var myData                      = myComponent.data("dynamicTable");
          var myCell                      = $(aEvent.currentTarget);
+
          var myId                        = myCell.attr("id");
          
-         var myTableLocation             = myId.replace("ui-dynamic-table-page-cell-", "")
+         if (myId.indexOf("ui-dynamic-table-page-counter-") === 0) {
+            var myRow = myId.replace("ui-dynamic-table-page-counter-", "");
+            var myTableLocation = [myRow, 0]
+         }
+         else {
+            var myTableLocation          = myId.replace("ui-dynamic-table-page-cell-", "")
                                                .split("-");
-         
+         }
+
          methods.private_activateEditor  (myComponent, myCell, myTableLocation);
          
          methods.private_selectRow(myComponent, myCell, myTableLocation);
@@ -1577,7 +1584,15 @@
          
          var myTableLocation             = myId.replace("ui-dynamic-table-page-cell-", "")
                                                .split("-");         
-      
+         if (myId.indexOf("ui-dynamic-table-page-counter-") === 0) {
+            var myRow = myId.replace("ui-dynamic-table-page-counter-", "");
+            var myTableLocation = [myRow, 0]
+         }
+         else {
+            var myTableLocation          = myId.replace("ui-dynamic-table-page-cell-", "")
+                                               .split("-");
+         }
+
          myComponent.trigger({
             type: "rowDoubleClick", 
             row: myData.data[myTableLocation[0]]
@@ -1901,7 +1916,7 @@
          
          var myRow               = myData.data[myRowNumber];
          
-         if ($(aEvent.target).attr("checked"))
+         if ($(aEvent.target).is(":checked"))
          {
             myData.checkedRows.push(myRow);
          }
