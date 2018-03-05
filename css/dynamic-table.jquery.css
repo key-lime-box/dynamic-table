@@ -255,6 +255,15 @@ select.ui-dynamic-table-filter-list-select {
    }
 }
 
+.ui-dynamic-table-editor-field {
+   -webkit-touch-callout: text;
+   -webkit-user-select: text;
+   -khtml-user-select: text;
+   -moz-user-select: text;
+   -ms-user-select: text;
+   user-select: text;  
+}
+
 textarea.ui-dynamic-table-editor-field {
    overflow: hidden;
    border: 0;
