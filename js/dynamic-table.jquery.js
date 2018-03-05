@@ -1827,7 +1827,8 @@
          {
             var myCell                 = myComponent.find("#ui-dynamic-table-page-cell-" + aState.rowIndex + "-" + aState.columnIndex);
             myCell.text(aValue);
-            
+            aState.row[aState.column.field || aState.columnIndex] = aValue;
+
             var myDynamicClass   = null;
 
             if (aState.column.cssClass != null) {
