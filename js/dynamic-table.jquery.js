@@ -28,6 +28,7 @@
          var myOptions        = $.extend({
                                     fillParent        : true,
                                     rowHeight         : 35,
+                                    headerHeight      : 35,
                                     pageSize          : 50,
                                     pageBuffer        : 1,
                                     showCounter       : false,
@@ -60,13 +61,9 @@
             });
             
             //Add a container for rows.
-            var myRowContainer         = $("<div/>");
-            myRowContainer.addClass    ("ui-dynamic-table-private-row-container");
-            myRowContainer.css         ("position", "absolute");
-            myRowContainer.css         ("overflow", "auto");
-            myRowContainer.css         ("margin-top", myOptions.rowHeight);
-            myRowContainer.css         ("height", $(this).parent().innerHeight() - myOptions.rowHeight);
-            myRowContainer.css         ("width", $(this).parent().innerWidth());
+            var myRowContainer            = $("<div/>");
+            myRowContainer.addClass       ("ui-dynamic-table-private-row-container");
+            methods.private_initRowContainer (myContainer, myOptions);
             
             $(this).append(myRowContainer);
             
@@ -82,7 +79,8 @@
             //$(window).on("resize.dynamicTable", {component: myContainer}, methods.private_handleResize);
             
             methods.private_initResizeListener(myContainer);
-            
+            methods.private_handleResize({data : {component : myContainer}});
+
             //Listen to any clicks to close open windows
             $(window).on("click.dynamicTable", {component: myContainer}, methods.private_hideFilter);
 
@@ -100,6 +98,16 @@
          });      
       },
       
+      /**=================================================================================
+       * Initializes the basic properties of the row container
+       *================================================================================*/ 
+      private_initRowContainer : function (aComponent, aOptions) {
+         var myRowContainer         = aComponent.children(".ui-dynamic-table-private-row-container").first();
+         myRowContainer.css         ("position", "absolute");
+         myRowContainer.css         ("overflow", "auto");
+         myRowContainer.css         ("margin-top", aOptions.headerHeight);
+      },
+
       /**=================================================================================
        * As resize events are not quite that easy to handle, the following function 
        * handles most of the initialization needed
@@ -185,7 +193,7 @@
          //console.log({width: myInnerWidth, height: myInnerHeight});
          
          var myRowContainer      = myComponent.children(".ui-dynamic-table-private-row-container").first();
-         myRowContainer.css("height", myInnerHeight - myOptions.rowHeight);
+         myRowContainer.css("height", myInnerHeight - myOptions.headerHeight);
          myRowContainer.css("width", myInnerWidth);
          
          var myResizeIndicator   = myComponent.children(".ui-dynamic-table-resize-indicator").first();
@@ -243,7 +251,7 @@
       /**=================================================================================
        * Renders the header so that it is fixed and not scrolling.
        *================================================================================*/         
-      private_renderHeader : function(aContainer, aColumns, aRowHeight) {
+      private_renderHeader : function(aContainer, aColumns, aHeaderHeight) {
          
          //Remove the existing header table.
          aContainer.children(".ui-dynamic-table-header").remove();
@@ -255,13 +263,13 @@
          var myHeaderContainer         = $("<div/>");
          myHeaderContainer.addClass    ("ui-dynamic-table-header");
          myHeaderContainer.css         ("width",      aContainer.width());
-         myHeaderContainer.css         ("height",     aRowHeight);
+         myHeaderContainer.css         ("height",     aHeaderHeight);
          myHeaderContainer.css         ("overflow",   "hidden");
          myHeaderContainer.css         ("position",   "absolute");
          
          //Add the actual table into the container
          var myTable                   = $("<table/>");
-         myTable.css                   ("height",     aRowHeight);
+         myTable.css                   ("height",     aHeaderHeight);
          
          //Add one row.
          var myRow                     = myTable.append("<tr/>");
@@ -275,7 +283,7 @@
                   "   <div" +
                   "      id=\"ui-dynamic-table-header-cell-" + i + "\" " +
                   "      class=\"ui-dynamic-table-header-cell counter-header\" " +
-                  "      style=\"height:" + (aRowHeight) + "px;width:" + (myWidth + 1) + "px; line-height:" + (aRowHeight) + "px\"" +
+                  "      style=\"height:" + (aHeaderHeight) + "px;width:" + (myWidth + 1) + "px; line-height:" + (aHeaderHeight) + "px\"" +
                   "   >&nbsp;</div>" + 
                   "</td>"
             );
@@ -302,7 +310,7 @@
                      "   <div" +
                      "      id=\"ui-dynamic-table-header-cell-" + i + "\" " +
                      "      class=\"ui-dynamic-table-header-cell\" " +
-                     "      style=\"height:" + (aRowHeight) + "px;width:" + (myWidth - 1)+ "px;line-height:" + (aRowHeight) + "px;\"" +
+                     "      style=\"height:" + (aHeaderHeight) + "px;width:" + (myWidth - 1)+ "px;line-height:" + (aHeaderHeight) + "px;\"" +
                      "   > " + 
                      "      <div class=\"ui-dynamic-table-header-cell-resize\"></div>" +
                      "      <div " + 
@@ -455,7 +463,7 @@
                "   <div" +
                "      id=\"ui-dynamic-table-header-cell-" + i + "\" " +
                "      class=\"ui-dynamic-table-header-cell settings-header\" " +
-               "      style=\"height:" + (aRowHeight) + "px;width:17px; line-height:" + (aRowHeight) + "px\"" +
+               "      style=\"height:" + (aHeaderHeight) + "px;width:17px; line-height:" + (aHeaderHeight) + "px\"" +
                "   ><a href=\"javascript:void(0)\" class=\"ui-dynamic-table-header-settings\">+/-</a></div>" + 
                "</td>"
             ).appendTo(myRow);
@@ -473,7 +481,7 @@
                "   <div" +
                "      id=\"ui-dynamic-table-header-cell-" + i + "\" " +
                "      class=\"ui-dynamic-table-header-cell settings-header\" " +
-               "      style=\"height:" + (aRowHeight) + "px;width:17px; line-height:" + (aRowHeight) + "px\"" +
+               "      style=\"height:" + (aHeaderHeight) + "px;width:17px; line-height:" + (aHeaderHeight) + "px\"" +
                "   >&nbsp;</div>" + 
                "</td>"
             ).appendTo(myRow);
@@ -1100,6 +1108,8 @@
                   "keyup.dynamicTable", 
                   function(aEvent) {
                      
+                     aEvent.stopPropagation();
+
                      if ($.ui.keyCode.ENTER == aEvent.which)
                      {
                         methods.private_hideFilter(aEvent, aComponent);
@@ -1531,7 +1541,7 @@
                
                myData.options.settingsHandler.saveColumn(myColumns[myIndex]);
 
-               methods.private_renderHeader        (aComponent, myData.options.columns, myData.options.rowHeight);
+               methods.private_renderHeader        (aComponent, myData.options.columns, myData.options.headerHeight);
 
                //Render placeholders
                methods.private_renderPlaceHolders  (aComponent, myData.options.rowHeight, myData.options.pageSize, myData.data.length);
@@ -1614,7 +1624,7 @@
          var myRowBottom         = myRowTop + myData.options.rowHeight;
 
          var myContainer         = aComponent.children(".ui-dynamic-table-private-row-container");
-         var myContainerBottom   = (myContainer.scrollTop() + myContainer.height()) - myData.options.rowHeight;
+         var myContainerBottom   = (myContainer.scrollTop() + myContainer.height()) - myData.options.headerHeight;
          var myContainerTop      = myContainer.scrollTop();
          
          if (myRowBottom > myContainerBottom)
@@ -1973,8 +1983,12 @@
             // Apply existing filters
             methods.private_applyFilter         (myData);
 
+            // Make sure the row container is properly sized
+            methods.private_initRowContainer    ($(this), myOptions);
+            methods.private_handleResize        ({data : {component : $(this)}});
+
             //Render the header
-            methods.private_renderHeader        ($(this), myOptions.columns, myOptions.rowHeight);
+            methods.private_renderHeader        ($(this), myOptions.columns, myOptions.headerHeight);
             
             //Render placeholders
             methods.private_renderPlaceHolders  ($(this), myOptions.rowHeight, myOptions.pageSize, aData.length);

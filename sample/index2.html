@@ -26,6 +26,7 @@
             fillParent : false,
             showCounter: true,
             changeColumns: true,
+            showCheck : true,
             listChange : function() {
                var myCounts = $("#sample-grid").dynamicTable("counts");
                $("#counts").text("Total: " + myCounts.total + " Filtered: " + myCounts.filtered);
@@ -135,6 +136,7 @@
          
          // Add event listeners:
          $("#sample-grid").on("rowSelect", function(aEvent) {
+            console.log($("#sample-grid").dynamicTable("checkedRows"));
             $("#selected-data").html("You selected <strong>" + aEvent.row.name + "</strong>");     
          });  
          

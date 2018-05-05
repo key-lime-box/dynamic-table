@@ -249,6 +249,7 @@
             var myEditor            = $(this);
             var myField             = myEditor.children(".ui-dynamic-table-editor-field");
             var myData              = myEditor.data("dynamicTableEditor");
+
             var myOptions           = myData.options;
             
             var myTop               = aRectangle.top - 1;
