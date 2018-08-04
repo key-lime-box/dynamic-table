@@ -140,11 +140,14 @@
             $("#selected-data").html("You selected <strong>" + aEvent.row.name + "</strong>");     
          });  
          
-         // Add event listeners:
          $("#sample-grid").on("rowDoubleClick", function(aEvent) {
             $("#selected-data").html("You <em>double-clicked</em> <strong>" + aEvent.row.name + "</strong>");     
          });  
          
+         $("#change-columns").on("click", function(aEvent) {
+            $("#sample-grid").dynamicTable("data", myData, myColumns.sort(function(aCol1, aCol2) {return aCol1.name.localeCompare(aCol2.name)}));
+         });  
+
       });
       
       </script>
@@ -193,6 +196,8 @@
 
       <div id="selected-data">&nbsp;</div>
       <div id="save-data">&nbsp;</div>
+
+      <button type="button" id="change-columns">Change Columns</button>
 
    
    </body>

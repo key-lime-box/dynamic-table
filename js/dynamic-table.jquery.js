@@ -1185,7 +1185,7 @@
                "         <div class=\"ui-dynamic-table-filter-date-range-start\"></div> " +
                "      </div> " +
                "      <div> " +
-               "         <div style=\"padding-top: 3px; color: #ffffff; font-weight: bold\">End Date (<a class=\"ui-dynamic-table-filter-date-range-end-clear\" href=\"javascript:void(0)\">Clear</a>):</div> " +
+               "         <div style=\"paddingR-top: 3px; color: #ffffff; font-weight: bold\">End Date (<a class=\"ui-dynamic-table-filter-date-range-end-clear\" href=\"javascript:void(0)\">Clear</a>):</div> " +
                "         <div class=\"ui-dynamic-table-filter-date-range-end\"></div> " +
                "      </div> " +
                "   </div> " +
@@ -1508,10 +1508,19 @@
 
          var myHtml = 
             "<div class=\"ui-dynamic-table-filter ui-dynamic-table-settings\">" + 
-            "  <ul>";
+            "  <ul></ul>" + 
+            "</div>";
+
+         var myPopUp = methods.private_getPopUp(
+            aComponent,
+            ".ui-dynamic-table-settings", 
+            myHtml
+         );
+
+         var myInnerHtml = "";
 
          myColumns.forEach(function(aColumn, aIndex) {
-            myHtml +=
+            myInnerHtml +=
                "<li>" + 
                "  <label>" + 
                "     <input type=\"checkbox\" class=\"ui-dynamic-table-settings-column\" data-index=\"" + aIndex + "\"" + (aColumn.visible ? " checked" : "") + "> " + 
@@ -1520,15 +1529,7 @@
                "</li>";
          })
 
-         myHtml +=
-            "  </ul>" + 
-            "</div>";
-
-         var myPopUp = methods.private_getPopUp(
-            aComponent,
-            ".ui-dynamic-table-settings", 
-            myHtml
-         );
+         myPopUp.find("ul").html(myInnerHtml);
 
          myPopUp.find(".ui-dynamic-table-settings-column")
             .off("change.dynamicTable")
